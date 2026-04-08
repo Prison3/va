@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -192,7 +194,7 @@ public class PackageManagerCompat {
         }
         PackageInfo base = null;
         try {
-            base = PrisonCore.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
+            base = VHost.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         if ((flags & PackageManager.GET_SIGNATURES) != 0) {
@@ -285,13 +287,13 @@ public class PackageManagerCompat {
         }
         ApplicationInfo baseApplication;
         try {
-            baseApplication = PrisonCore.getContext().getPackageManager().getApplicationInfo(PrisonCore.getPackageName(), flags);
+            baseApplication = VHost.getContext().getPackageManager().getApplicationInfo(VHost.getPackageName(), flags);
         } catch (Exception e) {
             return null;
         }
         String sourceDir = p.baseCodePath;
         if (p.applicationInfo == null) {
-            p.applicationInfo = PrisonCore.getContext().getPackageManager()
+            p.applicationInfo = VHost.getContext().getPackageManager()
                     .getPackageArchiveInfo(sourceDir, 0).applicationInfo;
         }
         ApplicationInfo ai = new ApplicationInfo(p.applicationInfo);

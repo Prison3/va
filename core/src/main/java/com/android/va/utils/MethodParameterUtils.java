@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -28,7 +30,7 @@ public class MethodParameterUtils {
             if (args[i] instanceof String) {
                 String value = (String) args[i];
                 if (VPackageManager.get().isInstalled(value, VActivityThread.getUserId())) {
-                    args[i] = PrisonCore.getPackageName();
+                    args[i] = VHost.getPackageName();
                     return value;
                 }
             }
@@ -46,7 +48,7 @@ public class MethodParameterUtils {
             if (args[i] instanceof String) {
                 String value = (String) args[i];
                 if (VPackageManager.get().isInstalled(value, VActivityThread.getUserId())) {
-                    args[i] = PrisonCore.getPackageName();
+                    args[i] = VHost.getPackageName();
                 }
             }
         }
@@ -59,7 +61,7 @@ public class MethodParameterUtils {
             if (args[i] instanceof Integer) {
                 int uid = (int) args[i];
                 if (uid == VActivityThread.getBoundUid()) {
-                    args[i] = PrisonCore.getUid();
+                    args[i] = VHost.getUid();
                 }
             }
         }
@@ -70,7 +72,7 @@ public class MethodParameterUtils {
         if (index != -1) {
             int uid = (int) args[index];
             if (uid == VActivityThread.getBoundUid()) {
-                args[index] = PrisonCore.getUid();
+                args[index] = VHost.getUid();
             }
         }
     }
@@ -80,7 +82,7 @@ public class MethodParameterUtils {
         if (index != -1) {
             String pkg = (String) args[index];
             if (VPackageManager.get().isInstalled(pkg, VActivityThread.getUserId())) {
-                args[index] = PrisonCore.getPackageName();
+                args[index] = VHost.getPackageName();
             }
             return pkg;
         }
@@ -92,7 +94,7 @@ public class MethodParameterUtils {
         if (index != -1) {
             String pkg = (String) args[index];
             if (VPackageManager.get().isInstalled(pkg, VActivityThread.getUserId())) {
-                args[index] = PrisonCore.getPackageName();
+                args[index] = VHost.getPackageName();
             }
             return pkg;
         }

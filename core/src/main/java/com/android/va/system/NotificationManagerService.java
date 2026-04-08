@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -37,7 +39,7 @@ public class NotificationManagerService extends INotificationManagerService.Stub
     private final Map<String, NotificationRecord> mNotificationRecords = new HashMap<>();
 
     private final NotificationManager mRealNotificationManager =
-            (NotificationManager) PrisonCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            (NotificationManager) VHost.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
     public static NotificationManagerService get() {
         return sService;

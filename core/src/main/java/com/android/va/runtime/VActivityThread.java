@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.android.va.base.AppServiceDispatcher;
-import com.android.va.base.ContentProviderDelegate;
+import com.android.va.hook.content.ContentProviderDelegate;
 import com.android.va.hook.system.ServiceConnectionDelegate;
 import com.android.va.mirror.android.app.ActivityThreadAppBindDataContext;
 import com.android.va.mirror.android.app.BRActivity;
@@ -138,7 +138,7 @@ public class VActivityThread extends IActivityThread.Stub {
     }
 
     public static int getCallingBoundUid() {
-        return getAppConfig() == null ? PrisonCore.getUid() : getAppConfig().callingBUid;
+        return getAppConfig() == null ? VHost.getUid() : getAppConfig().callingBUid;
     }
 
     public static int getUid() {
@@ -207,14 +207,14 @@ public class VActivityThread extends IActivityThread.Stub {
         }
 
         try {
-            Context context = PrisonCore.getContext().createPackageContext(
+            Context context = VHost.getContext().createPackageContext(
                     serviceInfo.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY
             );
             BRContextImpl.get(context).setOuterContext(service);
             BRService.get(service).attach(
                     context,
-                    PrisonCore.mainThread(),
+                    VHost.mainThread(),
                     serviceInfo.name,
                     token,
                     mInitialApplication,
@@ -262,14 +262,14 @@ public class VActivityThread extends IActivityThread.Stub {
         }
 
         try {
-            Context context = PrisonCore.getContext().createPackageContext(
+            Context context = VHost.getContext().createPackageContext(
                     serviceInfo.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY
             );
             BRContextImpl.get(context).setOuterContext(service);
             BRService.get(service).attach(
                     context,
-                    PrisonCore.mainThread(),
+                    VHost.mainThread(),
                     serviceInfo.name,
                     VActivityThread.currentActivityThread().getActivityThread(),
                     mInitialApplication,
@@ -350,7 +350,7 @@ public class VActivityThread extends IActivityThread.Stub {
         }
         mProviders.addAll(Arrays.asList(packageInfo.providers));
 
-        Object boundApplication = BRActivityThread.get(PrisonCore.mainThread()).mBoundApplication();
+        Object boundApplication = BRActivityThread.get(VHost.mainThread()).mBoundApplication();
 
         Context packageContext = createPackageContext(applicationInfo);
         Object loadedApk = BRContextImpl.get(packageContext).mPackageInfo();
@@ -448,8 +448,8 @@ public class VActivityThread extends IActivityThread.Stub {
             }
             
             mInitialApplication = application;
-            BRActivityThread.get(PrisonCore.mainThread())._set_mInitialApplication(mInitialApplication);
-            ContextCompat.fix((Context) BRActivityThread.get(PrisonCore.mainThread()).getSystemContext());
+            BRActivityThread.get(VHost.mainThread())._set_mInitialApplication(mInitialApplication);
+            ContextCompat.fix((Context) BRActivityThread.get(VHost.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
@@ -701,7 +701,7 @@ public class VActivityThread extends IActivityThread.Stub {
      */
     private Context createFallbackContext(String packageName) {
         try {
-            Context baseContext = PrisonCore.getContext();
+            Context baseContext = VHost.getContext();
             if (baseContext == null) {
                 Logger.e(TAG, "Prison.getContext() is null, cannot create fallback context");
                 return null;
@@ -837,7 +837,7 @@ public class VActivityThread extends IActivityThread.Stub {
     private void setApplication(Application application) {
         try {
             mInitialApplication = application;
-            BRActivityThread.get(PrisonCore.mainThread())._set_mInitialApplication(application);
+            BRActivityThread.get(VHost.mainThread())._set_mInitialApplication(application);
             Logger.d(TAG, "Application set in ActivityThread successfully");
         } catch (Exception e) {
             Logger.e(TAG, "Error setting application in ActivityThread", e);
@@ -852,7 +852,7 @@ public class VActivityThread extends IActivityThread.Stub {
                             Application basicApp = createMinimalApplication(packageContext, packageName);
             if (basicApp != null) {
                 mInitialApplication = basicApp;
-                BRActivityThread.get(PrisonCore.mainThread())._set_mInitialApplication(mInitialApplication);
+                BRActivityThread.get(VHost.mainThread())._set_mInitialApplication(mInitialApplication);
                 ContextCompat.fix(mInitialApplication);
                 
                 // Skip problematic operations
@@ -874,7 +874,7 @@ public class VActivityThread extends IActivityThread.Stub {
                 try {
                     if (processName.equals(providerInfo.processName) ||
                             providerInfo.processName.equals(context.getPackageName()) || providerInfo.multiprocess) {
-                        installProvider(PrisonCore.mainThread(), context, providerInfo, null);
+                        installProvider(VHost.mainThread(), context, providerInfo, null);
                     }
                 } catch (SecurityException se) {
                     Logger.w(TAG, "SecurityException installing provider " + providerInfo.name + ": " + se.getMessage());
@@ -896,7 +896,7 @@ public class VActivityThread extends IActivityThread.Stub {
 
     public static Context createPackageContext(ApplicationInfo info) {
         try {
-            return PrisonCore.getContext().createPackageContext(info.packageName,
+            return VHost.getContext().createPackageContext(info.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
         } catch (Exception e) {
             e.printStackTrace();
@@ -910,7 +910,7 @@ public class VActivityThread extends IActivityThread.Stub {
     private static Context createMinimalPackageContext(ApplicationInfo info) {
         try {
             // Create a context that doesn't require the actual APK
-            Context baseContext = PrisonCore.getContext();
+            Context baseContext = VHost.getContext();
             
             // Try to create a context with minimal flags
             try {
@@ -959,7 +959,7 @@ public class VActivityThread extends IActivityThread.Stub {
      */
     private static Context createWrappedBaseContext(String packageName) {
         try {
-            Context baseContext = PrisonCore.getContext();
+            Context baseContext = VHost.getContext();
             
             // Create a wrapper context that provides the package name
             return new ContextWrapper(baseContext) {
@@ -991,7 +991,7 @@ public class VActivityThread extends IActivityThread.Stub {
         } catch (Exception e) {
             Logger.e(TAG, "Failed to create wrapped base context for " + packageName + ": " + e.getMessage());
             // Ultimate fallback: return the base context
-            return PrisonCore.getContext();
+            return VHost.getContext();
         }
     }
 
@@ -1002,7 +1002,7 @@ public class VActivityThread extends IActivityThread.Stub {
                 try {
                     if (processName.equals(providerInfo.processName) ||
                             providerInfo.processName.equals(context.getPackageName()) || providerInfo.multiprocess) {
-                        installProvider(PrisonCore.mainThread(), context, providerInfo, null);
+                        installProvider(VHost.mainThread(), context, providerInfo, null);
                     }
                 } catch (Throwable ignored) {
                 }
@@ -1028,7 +1028,7 @@ public class VActivityThread extends IActivityThread.Stub {
 
     @Override
     public IBinder getActivityThread() {
-        return BRActivityThread.get(PrisonCore.mainThread()).getApplicationThread();
+        return BRActivityThread.get(VHost.mainThread()).getApplicationThread();
     }
 
     @Override
@@ -1055,7 +1055,7 @@ public class VActivityThread extends IActivityThread.Stub {
         }
         String[] split = providerInfo.authority.split(";");
         for (String auth : split) {
-            ContentProviderClient contentProviderClient = PrisonCore.getContext()
+            ContentProviderClient contentProviderClient = VHost.getContext()
                     .getContentResolver().acquireContentProviderClient(auth);
             IInterface iInterface = BRContentProviderClient.get(contentProviderClient).mContentProvider();
             if (iInterface == null)
@@ -1073,7 +1073,7 @@ public class VActivityThread extends IActivityThread.Stub {
     @Override
     public void finishActivity(final IBinder token) {
         mH.post(() -> {
-            Map<IBinder, Object> activities = BRActivityThread.get(PrisonCore.mainThread()).mActivities();
+            Map<IBinder, Object> activities = BRActivityThread.get(VHost.mainThread()).mActivities();
             if (activities.isEmpty())
                 return;
             Object clientRecord = activities.get(token);
@@ -1097,12 +1097,12 @@ public class VActivityThread extends IActivityThread.Stub {
         mH.post(() -> {
             Intent newIntent;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                newIntent = BRReferrerIntent.get()._new(intent, PrisonCore.getPackageName());
+                newIntent = BRReferrerIntent.get()._new(intent, VHost.getPackageName());
             } else {
                 newIntent = intent;
             }
-            Object mainThread = PrisonCore.mainThread();
-            if (BRActivityThread.get(PrisonCore.mainThread())._check_performNewIntents(null, null) != null) {
+            Object mainThread = VHost.mainThread();
+            if (BRActivityThread.get(VHost.mainThread())._check_performNewIntents(null, null) != null) {
                 BRActivityThread.get(mainThread).performNewIntents(
                         token,
                         Collections.singletonList(newIntent)
@@ -1153,7 +1153,7 @@ public class VActivityThread extends IActivityThread.Stub {
 
     public static Activity getActivityByToken(IBinder token) {
         Map<IBinder, Object> iBinderObjectMap =
-                BRActivityThread.get(PrisonCore.mainThread()).mActivities();
+                BRActivityThread.get(VHost.mainThread()).mActivities();
         return BRActivityThreadActivityClientRecord.get(iBinderObjectMap.get(token)).activity();
     }
 
@@ -1193,11 +1193,11 @@ public class VActivityThread extends IActivityThread.Stub {
             try {
                 validContext = getApplication();
                 if (validContext == null) {
-                    validContext = PrisonCore.getContext();
+                    validContext = VHost.getContext();
                 }
             } catch (Exception e) {
                 Logger.w(TAG, "Could not get application context: " + e.getMessage());
-                validContext = PrisonCore.getContext();
+                validContext = VHost.getContext();
             }
             
             if (validContext != null) {
@@ -1228,7 +1228,7 @@ public class VActivityThread extends IActivityThread.Stub {
     public static void hookActivityThread() {
         try {
             // Try to hook the ActivityThread to ensure all activities get valid contexts
-            Object activityThread = PrisonCore.mainThread();
+            Object activityThread = VHost.mainThread();
             if (activityThread != null) {
                 // Get the instrumentation from the ActivityThread
                 Instrumentation instrumentation = BRActivityThread.get(activityThread).mInstrumentation();

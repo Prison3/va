@@ -53,7 +53,7 @@ public class VGmsManager {
                 continue;
             }
             try {
-                PrisonCore.getContext().getPackageManager().getApplicationInfo(packageName, 0);
+                VHost.getContext().getPackageManager().getApplicationInfo(packageName, 0);
             } catch (PackageManager.NameNotFoundException e) {
                 // Ignore
                 continue;
@@ -99,7 +99,7 @@ public class VGmsManager {
 
     public static boolean isSupportGms() {
         try {
-            PrisonCore.getContext().getPackageManager().getPackageInfo(GMS_PKG, 0);
+            VHost.getContext().getPackageManager().getPackageInfo(GMS_PKG, 0);
             return true;
         } catch (PackageManager.NameNotFoundException ignored) {
         }

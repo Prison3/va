@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
@@ -18,8 +20,8 @@ public class SafeContextWrapper extends ContextWrapper {
     private final String packageName;
     
     public SafeContextWrapper(Context base, String packageName) {
-        super(base != null ? base : PrisonCore.getContext());
-        this.fallbackContext = PrisonCore.getContext();
+        super(base != null ? base : VHost.getContext());
+        this.fallbackContext = VHost.getContext();
         this.packageName = packageName;
     }
     

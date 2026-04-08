@@ -1,5 +1,7 @@
 package com.android.va.hook;
 
+import com.android.va.runtime.VHost;
+
 import java.lang.reflect.Method;
 
 import com.android.va.base.PrisonCore;
@@ -26,7 +28,7 @@ public class UidMethodProxy extends MethodHook {
     protected Object hook(Object who, Method method, Object[] args) throws Throwable {
         int uid = (int) args[index];
         if (uid == VActivityThread.getBoundUid()) {
-            args[index] = PrisonCore.getUid();
+            args[index] = VHost.getUid();
         }
         return method.invoke(who, args);
     }

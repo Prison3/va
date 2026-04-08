@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -298,7 +300,7 @@ public class CrashMonitor {
             return VActivityThread.getAppPackageName();
         } catch (Exception e) {
             try {
-                Context context = PrisonCore.getContext();
+                Context context = VHost.getContext();
                 if (context != null) {
                     return context.getPackageName();
                 }
@@ -360,7 +362,7 @@ public class CrashMonitor {
      */
     private static void writeCrashLog(CrashInfo crashInfo) {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context == null) return;
             
             File logDir = new File(context.getFilesDir(), "crash_logs");

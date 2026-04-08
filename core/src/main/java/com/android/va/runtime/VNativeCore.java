@@ -10,7 +10,6 @@ import java.util.List;
 
 import dalvik.system.DexFile;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.utils.Logger;
 import com.android.va.utils.DexFileCompat;
 
@@ -93,7 +92,7 @@ public class VNativeCore {
             }
 
             // Handle host app UID spoofing
-            if (origCallingUid == PrisonCore.getUid()) {
+            if (origCallingUid == VHost.getUid()) {
                 return handleHostUidSpoofing();
             }
             
@@ -142,7 +141,7 @@ public class VNativeCore {
         }
         
         // Fallback to host UID
-        return PrisonCore.getUid();
+        return VHost.getUid();
     }
 
     /**

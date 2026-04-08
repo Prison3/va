@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.os.IInterface;
 import android.view.WindowManager;
 
@@ -51,7 +53,7 @@ public class IWindowSessionProxy extends BinderInvocationStub {
                     continue;
                 }
                 if (arg instanceof WindowManager.LayoutParams) {
-                    ((WindowManager.LayoutParams) arg).packageName = PrisonCore.getPackageName();
+                    ((WindowManager.LayoutParams) arg).packageName = VHost.getPackageName();
                 }
             }
             return method.invoke(who, args);

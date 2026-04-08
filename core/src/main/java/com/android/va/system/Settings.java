@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageParser;
@@ -211,7 +213,7 @@ import com.android.va.utils.Logger;
             VPackageSettings bPackageSettings = new VPackageSettings(packageSettingsIn);
             bPackageSettings.pkg.mExtras = bPackageSettings;
             if (bPackageSettings.installOption.isFlag(InstallOption.FLAG_SYSTEM)) {
-                PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+                PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
                 String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
                 if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
                     // update baseCodePath And Re install
@@ -244,7 +246,7 @@ import com.android.va.utils.Logger;
         if (aPackage == null) {
             throw new RuntimeException("parser apk error.");
         }
-        aPackage.applicationInfo = PrisonCore.getContext().getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
+        aPackage.applicationInfo = VHost.getContext().getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
         return getPackageLPw(aPackage.packageName, aPackage, option);
     }
 

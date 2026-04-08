@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -94,7 +96,7 @@ public class AccountManagerService extends IAccountManagerService.Stub implement
     }
 
     public AccountManagerService() {
-        mContext = PrisonCore.getContext();
+        mContext = VHost.getContext();
         mPms = PackageManagerService.get();
     }
 

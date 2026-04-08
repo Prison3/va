@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -20,7 +22,7 @@ import com.android.va.utils.BuildCompat;
  */
 public class DaemonService extends Service {
     public static final String TAG = DaemonService.class.getSimpleName();
-    private static final int NOTIFY_ID = PrisonCore.getPackageName().hashCode();
+    private static final int NOTIFY_ID = VHost.getPackageName().hashCode();
     private static final String CHANNEL_ID = "prison_daemon_channel";
     private static final String CHANNEL_NAME = "Prison Daemon Service";
     private static final String CHANNEL_DESCRIPTION = "Keeps Prison core services running";

@@ -100,7 +100,7 @@ public class VPackageManager extends Manager<IPackageManagerService> {
         intentToResolve.setPackage(packageName);
         List<ResolveInfo> ris = queryIntentActivities(intentToResolve,
                 0,
-                intentToResolve.resolveTypeIfNeeded(PrisonCore.getContext().getContentResolver()),
+                intentToResolve.resolveTypeIfNeeded(VHost.getContext().getContentResolver()),
                 userId);
 
         // Otherwise, try to find a main launcher activity.
@@ -111,7 +111,7 @@ public class VPackageManager extends Manager<IPackageManagerService> {
             intentToResolve.setPackage(packageName);
             ris = queryIntentActivities(intentToResolve,
                     0,
-                    intentToResolve.resolveTypeIfNeeded(PrisonCore.getContext().getContentResolver()),
+                    intentToResolve.resolveTypeIfNeeded(VHost.getContext().getContentResolver()),
                     userId);
         }
         if (ris == null || ris.size() <= 0) {
@@ -130,7 +130,7 @@ public class VPackageManager extends Manager<IPackageManagerService> {
     private Intent createFallbackLaunchIntent(String packageName) {
         try {
             // Try to get the launch intent from the system PackageManager as fallback
-            Intent intent = PrisonCore.getContext().getPackageManager().getLaunchIntentForPackage(packageName);
+            Intent intent = VHost.getContext().getPackageManager().getLaunchIntentForPackage(packageName);
             if (intent != null) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 return intent;
@@ -509,10 +509,10 @@ public class VPackageManager extends Manager<IPackageManagerService> {
             if (file != null && !file.isEmpty()) {
                 try {
                     // Try to check if this is a Prison app
-                    PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageArchiveInfo(file, 0);
+                    PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(file, 0);
                     if (packageInfo != null) {
                         String packageName = packageInfo.packageName;
-                        String hostPackageName = PrisonCore.getPackageName();
+                        String hostPackageName = VHost.getPackageName();
                         if (packageName.equals(hostPackageName)) {
                             Logger.w(TAG, "Attempt to install Prison app detected and blocked: " + packageName);
                             return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
@@ -532,11 +532,11 @@ public class VPackageManager extends Manager<IPackageManagerService> {
 
     public InstallResult installPackageAsUser(String packageName, int userId) {
         try {
-            if (packageName.equals(PrisonCore.getPackageName())) {
+            if (packageName.equals(VHost.getPackageName())) {
                 return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
             }
             
-            PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageInfo(packageName, 0);
+            PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageInfo(packageName, 0);
             return installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), userId);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -547,10 +547,10 @@ public class VPackageManager extends Manager<IPackageManagerService> {
     public InstallResult installPackageAsUser(File apk, int userId) {
         // Check if this is a Prison-related APK
         try {
-            PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageArchiveInfo(apk.getAbsolutePath(), 0);
+            PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(apk.getAbsolutePath(), 0);
             if (packageInfo != null) {
                 String packageName = packageInfo.packageName;
-                if (packageName.equals(PrisonCore.getPackageName())) {
+                if (packageName.equals(VHost.getPackageName())) {
                     return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
                 }
             }
@@ -661,7 +661,7 @@ public class VPackageManager extends Manager<IPackageManagerService> {
     private boolean isInstalledFallback(String packageName) {
         try {
             // Try to get package info from system PackageManager as fallback
-            PrisonCore.getContext().getPackageManager().getPackageInfo(packageName, 0);
+            VHost.getContext().getPackageManager().getPackageInfo(packageName, 0);
             return true;
         } catch (Exception e) {
             Logger.d(TAG, "Fallback isInstalled check failed for " + packageName + ", assuming not installed");

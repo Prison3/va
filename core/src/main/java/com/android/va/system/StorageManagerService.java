@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.net.Uri;
 import android.os.Process;
 import android.os.RemoteException;
@@ -49,7 +51,7 @@ public class StorageManagerService extends IStorageManagerService.Stub implement
 
     @Override
     public Uri getUriForFile(String file) throws RemoteException {
-        return FileProvider.getUriForFile(PrisonCore.getContext(), ProxyManifest.getProxyFileProvider(), new File(file));
+        return FileProvider.getUriForFile(VHost.getContext(), ProxyManifest.getProxyFileProvider(), new File(file));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -87,14 +89,14 @@ public class ProcessManagerService implements ISystemService {
                 mPidsSelfLocked.remove(app);
                 app = null;
             } else {
-                app.pid = getPid(PrisonCore.getContext(), ProxyManifest.getProcessName(app.bpid));
+                app.pid = getPid(VHost.getContext(), ProxyManifest.getProcessName(app.bpid));
             }
         }
         return app;
     }
 
     private int getUsingBPidL() {
-        ActivityManager manager = (ActivityManager) PrisonCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) VHost.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
         Set<Integer> usingPs = new HashSet<>();
         for (ActivityManager.RunningAppProcessInfo runningAppProcess : runningAppProcesses) {
@@ -116,7 +118,7 @@ public class ProcessManagerService implements ISystemService {
             int callingPid = Binder.getCallingPid();
             ProcessRecord app = findProcessByPid(callingPid);;
             if (app == null) {
-                String stubProcessName = getProcessName(PrisonCore.getContext(), callingPid);
+                String stubProcessName = getProcessName(VHost.getContext(), callingPid);
                 int bpid = parseBPid(stubProcessName);
                 startProcessLocked(packageName, processName, userId, bpid, callingPid);
             }
@@ -128,7 +130,7 @@ public class ProcessManagerService implements ISystemService {
         if (stubProcessName == null) {
             return -1;
         } else {
-            prefix = PrisonCore.getPackageName() + ":p";
+            prefix = VHost.getPackageName() + ":p";
         }
         if (stubProcessName.startsWith(prefix)) {
             try {

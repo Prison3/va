@@ -1,5 +1,7 @@
 package com.android.va.hook.scan;
 
+import com.android.va.runtime.VHost;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class VpnCommonProxy {
             if (applications == null)
                 return;
             if (applications.contains(VActivityThread.getAppPackageName())) {
-                applications.add(PrisonCore.getPackageName());
+                applications.add(VHost.getPackageName());
             }
         }
     }

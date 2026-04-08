@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.IServiceConnection;
@@ -298,7 +300,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
                 //Logger.d(TAG,"Intent:" + intent + "-->" + "proxyIntent:" + proxyIntent + ",flag:" + intent.getFlags() + "proxyFlag:" + proxyIntent.getFlags());
                 if (proxyIntent != null && proxyIntent.getComponent() != null && 
-                    proxyIntent.getComponent().getPackageName().equals(PrisonCore.getPackageName())){
+                    proxyIntent.getComponent().getPackageName().equals(VHost.getPackageName())){
                     int flagsIndex = getFlagsIndex(args);
                     if (flagsIndex >= 0) {
                         int flags = MethodParameterUtils.toInt(args[flagsIndex]);
@@ -306,7 +308,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                         args[flagsIndex] = flags;
                     }
                 }
-                args[callingPackageIndex] = PrisonCore.getPackageName();
+                args[callingPackageIndex] = VHost.getPackageName();
 
                 if (proxyIntent != null) {
                     args[2] = proxyIntent;
@@ -431,7 +433,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 switch (type) {
                     case ActivityManagerCompat.INTENT_SENDER_ACTIVITY:
                         Intent shadow = new Intent();
-                        shadow.setComponent(new ComponentName(PrisonCore.getPackageName(), ProxyManifest.getProxyPendingActivity(VActivityThread.getAppPid())));
+                        shadow.setComponent(new ComponentName(VHost.getPackageName(), ProxyManifest.getProxyPendingActivity(VActivityThread.getAppPid())));
                         ProxyPendingRecord.saveStub(shadow, intent, VActivityThread.getUserId());
                         intents[i] = shadow;
                         break;
@@ -441,7 +443,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             if (invoke != null) {
                 String[] packagesForUid = VPackageManager.get().getPackagesForUid(VActivityThread.getCallingBoundUid());
                 if (packagesForUid.length < 1) {
-                    packagesForUid = new String[]{PrisonCore.getPackageName()};
+                    packagesForUid = new String[]{VHost.getPackageName()};
                 }
                 VActivityManager.get().getIntentSender(invoke.asBinder(), packagesForUid[0], VActivityThread.getCallingBoundUid());
             }

@@ -1,5 +1,6 @@
 package com.android.va.hook.device;
 
+import com.android.va.runtime.VHost;
 
 import java.lang.reflect.Method;
 
@@ -38,7 +39,7 @@ public class IDeviceIdentifiersPolicyProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
 //                args[0] = Prison.getHostPkg();
 //                return method.invoke(who, args);
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 }

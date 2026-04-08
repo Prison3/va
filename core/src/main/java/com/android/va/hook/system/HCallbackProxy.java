@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -48,7 +50,7 @@ public class HCallbackProxy implements IInjector, Handler.Callback {
     }
 
     private Handler getH() {
-        Object currentActivityThread = PrisonCore.mainThread();
+        Object currentActivityThread = VHost.mainThread();
         return BRActivityThread.get(currentActivityThread).mH();
     }
 
@@ -177,7 +179,7 @@ public class HCallbackProxy implements IInjector, Handler.Callback {
                 launchActivityItemContext._set_mIntent(stubRecord.mTarget);
                 launchActivityItemContext._set_mInfo(activityInfo);
             } else if (BuildCompat.isS()) {
-                Object record = BRActivityThread.get(PrisonCore.mainThread()).getLaunchingActivity(token);
+                Object record = BRActivityThread.get(VHost.mainThread()).getLaunchingActivity(token);
                 ActivityThreadActivityClientRecordContext clientRecordContext = BRActivityThreadActivityClientRecord.get(record);
                 clientRecordContext._set_intent(stubRecord.mTarget);
                 clientRecordContext._set_activityInfo(activityInfo);

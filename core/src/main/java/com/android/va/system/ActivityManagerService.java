@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -85,7 +87,7 @@ public class ActivityManagerService extends IActivityManagerService.Stub impleme
             }
         }
         Intent shadow = new Intent();
-        shadow.setPackage(PrisonCore.getPackageName());
+        shadow.setPackage(VHost.getPackageName());
         shadow.setComponent(null);
         shadow.setAction(intent.getAction());
         return shadow;
@@ -155,7 +157,7 @@ public class ActivityManagerService extends IActivityManagerService.Stub impleme
     @Override
     public RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId) throws RemoteException {
         ActivityManager manager = (ActivityManager)
-                PrisonCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                VHost.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
         Map<Integer, ActivityManager.RunningAppProcessInfo> runningProcessMap = new HashMap<>();
         for (ActivityManager.RunningAppProcessInfo runningProcess : runningAppProcesses) {

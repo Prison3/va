@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -65,7 +67,7 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        PrisonCore.getContext()
+        VHost.getContext()
                 .registerReceiver(mPackageChangedHandler, filter);
     }
 
@@ -84,9 +86,9 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {
         if (!sProfileManager.hasProfile(userId)) return null;
-        if (Objects.equals(packageName, PrisonCore.getPackageName())) {
+        if (Objects.equals(packageName, VHost.getPackageName())) {
             try {
-                return PrisonCore.getContext().getPackageManager().getApplicationInfo(packageName, flags);
+                return VHost.getContext().getPackageManager().getApplicationInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -237,7 +239,7 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
     @Override
     public List<ResolveInfo> queryIntentServices(
             Intent intent, int flags, int userId) {
-        final String resolvedType = intent.resolveTypeIfNeeded(PrisonCore.getContext().getContentResolver());
+        final String resolvedType = intent.resolveTypeIfNeeded(VHost.getContext().getContentResolver());
         return this.queryIntentServicesInternal(intent, resolvedType, flags, userId);
     }
 
@@ -259,9 +261,9 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
     @Override
     public PackageInfo getPackageInfo(String packageName, int flags, int userId) {
         if (!sProfileManager.hasProfile(userId)) return null;
-        if (Objects.equals(packageName, PrisonCore.getPackageName())) {
+        if (Objects.equals(packageName, VHost.getPackageName())) {
             try {
-                return PrisonCore.getContext().getPackageManager().getPackageInfo(packageName, flags);
+                return VHost.getContext().getPackageManager().getPackageInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -657,20 +659,20 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
             }
             if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
                 apkFile = new File(VEnvironment.getCacheDir(), UUID.randomUUID().toString() + ".apk");
-                InputStream inputStream = PrisonCore.getContext().getContentResolver().openInputStream(Uri.parse(file));
+                InputStream inputStream = VHost.getContext().getContentResolver().openInputStream(Uri.parse(file));
                 FileUtils.copyFile(inputStream, apkFile);
             } else {
                 apkFile = new File(file);
             }
 
-            PackageInfo packageArchiveInfo = PrisonCore.getContext().getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
+            PackageInfo packageArchiveInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
             if (packageArchiveInfo == null) {
                 return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
             }
 
             // Prevent cloning Prison app from within Prison
             String packageName = packageArchiveInfo.packageName;
-            String hostPackageName = PrisonCore.getPackageName();
+            String hostPackageName = VHost.getPackageName();
             if (packageName.equals(hostPackageName)) {
                 return result.installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
             }
@@ -684,7 +686,7 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
 
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
-                String msg = packageArchiveInfo.applicationInfo.loadLabel(PrisonCore.getContext().getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
+                String msg = packageArchiveInfo.applicationInfo.loadLabel(VHost.getContext().getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
                 return result.installError(packageArchiveInfo.packageName,
                         msg + "\n" + (Process.is64Bit() ? "The box does not support 32-bit Application" : "The box does not support 64-bit Application"));
             }
@@ -695,7 +697,7 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
             result.packageName = aPackage.packageName;
 
             if (option.isFlag(InstallOption.FLAG_SYSTEM)) {
-                aPackage.applicationInfo = PrisonCore.getContext().getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
+                aPackage.applicationInfo = VHost.getContext().getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
             }
             VPackageSettings bPackageSettings = mSettings.getPackageLPw(aPackage.packageName, aPackage, option);
 

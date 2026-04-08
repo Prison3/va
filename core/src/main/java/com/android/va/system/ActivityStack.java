@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -63,7 +65,7 @@ public class ActivityStack {
     };
 
     public ActivityStack() {
-        mAms = (ActivityManager) PrisonCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        mAms = (ActivityManager) VHost.getContext().getSystemService(Context.ACTIVITY_SERVICE);
     }
 
     public boolean containsFlag(Intent intent, int flag) {
@@ -279,7 +281,7 @@ public class ActivityStack {
         shadow.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shadow.addFlags(launchMode);
 
-        PrisonCore.getContext().startActivity(shadow);
+        VHost.getContext().startActivity(shadow);
         return 0;
     }
 
@@ -305,7 +307,7 @@ public class ActivityStack {
             flags &= ~ActivityManagerCompat.START_FLAG_NATIVE_DEBUGGING;
             flags &= ~ActivityManagerCompat.START_FLAG_TRACK_ALLOCATION;
 
-            BRIActivityManager.get(BRActivityManagerNative.get().getDefault()).startActivity(appThread, PrisonCore.getPackageName(), intent,
+            BRIActivityManager.get(BRActivityManagerNative.get().getDefault()).startActivity(appThread, VHost.getPackageName(), intent,
                     resolvedType, resultTo, resultWho, requestCode, flags, null, options);
         } catch (Throwable e) {
             e.printStackTrace();
@@ -329,7 +331,7 @@ public class ActivityStack {
         Intent shadow = new Intent();
         TypedArray typedArray = null;
         try {
-            Resources resources = PackageManagerCompat.getResources(PrisonCore.getContext(), activityInfo.applicationInfo);
+            Resources resources = PackageManagerCompat.getResources(VHost.getContext(), activityInfo.applicationInfo);
             int id;
             if (activityInfo.theme != 0) {
                 id = activityInfo.theme;
@@ -340,14 +342,14 @@ public class ActivityStack {
             typedArray = resources.newTheme().obtainStyledAttributes(id, BRRstyleable.get().Window());
             boolean windowIsTranslucent = typedArray.getBoolean(BRRstyleable.get().Window_windowIsTranslucent(), false);
             if (windowIsTranslucent) {
-                shadow.setComponent(new ComponentName(PrisonCore.getPackageName(), ProxyManifest.TransparentProxyActivity(vpid)));
+                shadow.setComponent(new ComponentName(VHost.getPackageName(), ProxyManifest.TransparentProxyActivity(vpid)));
             } else {
-                shadow.setComponent(new ComponentName(PrisonCore.getPackageName(), ProxyManifest.getProxyActivity(vpid)));
+                shadow.setComponent(new ComponentName(VHost.getPackageName(), ProxyManifest.getProxyActivity(vpid)));
             }
             Logger.d(TAG, activityInfo + ", windowIsTranslucent: " + windowIsTranslucent);
         } catch (Throwable e) {
             e.printStackTrace();
-            shadow.setComponent(new ComponentName(PrisonCore.getPackageName(), ProxyManifest.getProxyActivity(vpid)));
+            shadow.setComponent(new ComponentName(VHost.getPackageName(), ProxyManifest.getProxyActivity(vpid)));
         } finally {
             if (typedArray != null) {
                 typedArray.recycle();
@@ -511,7 +513,7 @@ public class ActivityStack {
                     return resultTo.info.packageName;
                 }
             }
-            return PrisonCore.getPackageName();
+            return VHost.getPackageName();
         }
     }
 
@@ -525,7 +527,7 @@ public class ActivityStack {
                     return resultTo.component;
                 }
             }
-            return new ComponentName(PrisonCore.getPackageName(), ProxyActivity.P0.class.getName());
+            return new ComponentName(VHost.getPackageName(), ProxyActivity.P0.class.getName());
         }
     }
 

@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.os.Build;
 import android.webkit.WebView;
@@ -133,7 +135,7 @@ public class SocialMediaAppCrashPrevention {
     private static void hookWebViewDatabase() {
         try {
             // Ensure WebViewDatabase directory exists and is accessible
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 String packageName = context.getPackageName();
                 String userId = String.valueOf(VActivityThread.getUserId());
@@ -173,7 +175,7 @@ public class SocialMediaAppCrashPrevention {
     private static void installContextCrashPrevention() {
         try {
             // Ensure context is never null
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context == null) {
                 Logger.w(TAG, "Host context is null, attempting to recover");
                 // Try to recover context

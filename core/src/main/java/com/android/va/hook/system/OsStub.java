@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.os.Process;
 
 import java.lang.reflect.Method;
@@ -91,7 +93,7 @@ public class OsStub extends ClassInvocationStub {
         if (VActivityThread.currentActivityThread().isInitialized()) {
             return VActivityThread.getBoundAppId();
         } else {
-            return PrisonCore.getUid();
+            return VHost.getUid();
         }
     }
 }

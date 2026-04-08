@@ -1,5 +1,7 @@
 package com.android.va.hook.gms;
 
+import com.android.va.runtime.VHost;
+
 import android.os.IBinder;
 
 import java.lang.reflect.Method;
@@ -66,8 +68,8 @@ public class GmsProxy extends BinderInvocationStub {
                     String callingPackage = (String) args[0];
                     if ("com.google.android.gms".equals(callingPackage)) {
                         // Replace with the correct package name
-                        args[0] = PrisonCore.getPackageName();
-                        Logger.d(TAG, "GmsProxy: Fixed calling package from com.google.android.gms to " + PrisonCore.getPackageName());
+                        args[0] = VHost.getPackageName();
+                        Logger.d(TAG, "GmsProxy: Fixed calling package from com.google.android.gms to " + VHost.getPackageName());
                     }
                 }
                 return method.invoke(who, args);

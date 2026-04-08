@@ -1,5 +1,7 @@
 package com.android.va.hook.webview;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.os.Build;
 import android.webkit.WebView;
@@ -53,7 +55,7 @@ public class WebViewProxy extends ClassInvocationStub {
                 if (args != null && args.length > 0 && args[0] instanceof Context) {
                     context = (Context) args[0];
                 } else {
-                    context = PrisonCore.getContext();
+                    context = VHost.getContext();
                 }
 
                 if (context != null) {
@@ -153,7 +155,7 @@ public class WebViewProxy extends ClassInvocationStub {
                     Logger.d(TAG, "WebView: setDataDirectorySuffix called with: " + suffix);
                     
                     // Create a unique suffix for each virtual app and process
-                    Context context = PrisonCore.getContext();
+                    Context context = VHost.getContext();
                     String packageName = context != null ? context.getPackageName() : "unknown";
                     String userId = String.valueOf(VActivityThread.getUserId());
                     String uniqueSuffix = suffix + "_" + userId + "_" + android.os.Process.myPid();
@@ -178,7 +180,7 @@ public class WebViewProxy extends ClassInvocationStub {
                 Logger.d(TAG, "WebView: getDataDirectory called, returning unique directory");
                 
                 // Return a unique data directory for each virtual app and process
-                Context context = PrisonCore.getContext();
+                Context context = VHost.getContext();
                 if (context != null) {
                     String packageName = context.getPackageName();
                     String userId = String.valueOf(VActivityThread.getUserId());
@@ -198,7 +200,7 @@ public class WebViewProxy extends ClassInvocationStub {
             } catch (Exception e) {
                 Logger.w(TAG, "WebView: getDataDirectory failed, returning fallback", e);
                 // Return a safe fallback directory
-                return "/data/data/" + PrisonCore.getPackageName() + "/webview_fallback";
+                return "/data/data/" + VHost.getPackageName() + "/webview_fallback";
             }
         }
     }
@@ -212,7 +214,7 @@ public class WebViewProxy extends ClassInvocationStub {
             
             try {
                 // Get the context from Prison
-                Context context = PrisonCore.getContext();
+                Context context = VHost.getContext();
                 if (context != null) {
                     // Create a unique database instance
                     String packageName = context.getPackageName();

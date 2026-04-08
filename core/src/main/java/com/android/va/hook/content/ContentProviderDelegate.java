@@ -1,4 +1,6 @@
-package com.android.va.base;
+package com.android.va.hook.content;
+
+import com.android.va.runtime.VHost;
 
 import android.net.Uri;
 import android.os.Build;
@@ -19,8 +21,6 @@ import com.android.va.mirror.android.providers.BRSettingsNameValueCache;
 import com.android.va.mirror.android.providers.BRSettingsNameValueCacheOreo;
 import com.android.va.mirror.android.providers.BRSettingsSecure;
 import com.android.va.mirror.android.providers.BRSettingsSystem;
-import com.android.va.hook.content.ContentProviderStub;
-import com.android.va.hook.SystemProviderStub;
 import com.android.va.utils.BuildCompat;
 
 public class ContentProviderDelegate {
@@ -42,10 +42,10 @@ public class ContentProviderDelegate {
             case "media":
             case "telephony":
             case "settings":
-                bContentProvider = new SystemProviderStub().wrapper(iInterface, PrisonCore.getPackageName());
+                bContentProvider = new SystemProviderStub().wrapper(iInterface, VHost.getPackageName());
                 break;
             default:
-                bContentProvider = new ContentProviderStub().wrapper(iInterface, PrisonCore.getPackageName());
+                bContentProvider = new ContentProviderStub().wrapper(iInterface, VHost.getPackageName());
                 break;
         }
         if (BuildCompat.isOreo()) {
@@ -58,8 +58,8 @@ public class ContentProviderDelegate {
     public static void init() {
         clearSettingProvider();
 
-        PrisonCore.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
-        Object activityThread = PrisonCore.mainThread();
+        VHost.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
+        Object activityThread = VHost.mainThread();
         ArrayMap<Object, Object> map = (ArrayMap<Object, Object>) BRActivityThread.get(activityThread).mProviderMap();
 
         for (Object value : map.values()) {
@@ -71,7 +71,7 @@ public class ContentProviderDelegate {
             if (!sInjected.contains(providerName)) {
                 sInjected.add(providerName);
                 final IInterface iInterface = BRActivityThreadProviderClientRecordP.get(value).mProvider();
-                BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, PrisonCore.getPackageName()));
+                BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, VHost.getPackageName()));
                 BRActivityThreadProviderClientRecordP.get(value)._set_mNames(new String[]{providerName});
             }
         }

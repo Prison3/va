@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.app.ActivityManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,7 +39,7 @@ public class TaskDescriptionCompat {
 
     private static CharSequence getApplicationLabel() {
         try {
-            PackageManager pm = PrisonCore.getContext().getPackageManager();
+            PackageManager pm = VHost.getContext().getPackageManager();
             return pm.getApplicationLabel(pm.getApplicationInfo(VActivityThread.getAppPackageName(), 0));
         } catch (PackageManager.NameNotFoundException e) {
             return null;

@@ -13,7 +13,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.utils.FileUtils;
 import com.android.va.utils.Logger;
 import com.android.va.utils.TrieTree;
@@ -288,7 +287,7 @@ public class VIOCore {
      */
     private void setupExternalStorageRedirects(Map<String, String> rule, Set<String> blackRule,
                                               int systemUserId, Context context) {
-        if (PrisonCore.getContext().getExternalCacheDir() == null || 
+        if (VHost.getContext().getExternalCacheDir() == null || 
             context.getExternalCacheDir() == null) {
             return;
         }

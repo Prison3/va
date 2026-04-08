@@ -1,5 +1,7 @@
 package com.android.va.hook.resources;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
@@ -62,7 +64,7 @@ public class ClassLoaderProxy extends ClassInvocationStub {
     private void initializeFallbackClassLoaders() {
         try {
             // Add host app class loader as fallback
-            Context hostContext = PrisonCore.getContext();
+            Context hostContext = VHost.getContext();
             if (hostContext != null) {
                 ClassLoader hostClassLoader = hostContext.getClassLoader();
                 if (hostClassLoader != null) {
@@ -423,7 +425,7 @@ public class ClassLoaderProxy extends ClassInvocationStub {
             }
             
             // Try to use host app's APK as fallback
-            Context hostContext = PrisonCore.getContext();
+            Context hostContext = VHost.getContext();
             if (hostContext != null) {
                 ApplicationInfo appInfo = hostContext.getApplicationInfo();
                 if (appInfo != null && appInfo.sourceDir != null) {
@@ -469,7 +471,7 @@ public class ClassLoaderProxy extends ClassInvocationStub {
     private static Object recoverDexPathList(Object who, Object[] args) {
         try {
             // Try to create a minimal DexPathList with fallback DEX files
-            Context hostContext = PrisonCore.getContext();
+            Context hostContext = VHost.getContext();
             if (hostContext != null) {
                 ApplicationInfo appInfo = hostContext.getApplicationInfo();
                 if (appInfo != null && appInfo.sourceDir != null) {

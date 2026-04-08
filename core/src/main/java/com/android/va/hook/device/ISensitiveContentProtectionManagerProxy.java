@@ -1,5 +1,7 @@
 package com.android.va.hook.device;
 
+import com.android.va.runtime.VHost;
+
 import android.os.IBinder;
 
 import com.android.va.hook.MethodHook;
@@ -61,9 +63,9 @@ public class ISensitiveContentProtectionManagerProxy extends BinderInvocationStu
                 for (int i = 0; i < args.length; i++) {
                     if (args[i] instanceof String) {
                         String pkg = (String) args[i];
-                        if (pkg != null && !pkg.equals(PrisonCore.getPackageName())) {
-                            Logger.d(TAG, "Fixing package name in setSensitiveContentProtection: " + pkg + " -> " + PrisonCore.getPackageName());
-                            args[i] = PrisonCore.getPackageName();
+                        if (pkg != null && !pkg.equals(VHost.getPackageName())) {
+                            Logger.d(TAG, "Fixing package name in setSensitiveContentProtection: " + pkg + " -> " + VHost.getPackageName());
+                            args[i] = VHost.getPackageName();
                         }
                     }
                 }

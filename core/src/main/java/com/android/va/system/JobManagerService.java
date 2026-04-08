@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.job.JobInfo;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -61,7 +63,7 @@ public class JobManagerService extends IJobManagerService.Stub implements ISyste
         jobRecord.mServiceInfo = serviceInfo;
 
         mJobRecords.put(formatKey(processRecord.processName, info.getId()), jobRecord);
-        BRJobInfo.get(info)._set_service(new ComponentName(PrisonCore.getPackageName(), ProxyManifest.getProxyJobService(processRecord.bpid)));
+        BRJobInfo.get(info)._set_service(new ComponentName(VHost.getPackageName(), ProxyManifest.getProxyJobService(processRecord.bpid)));
         return info;
     }
 

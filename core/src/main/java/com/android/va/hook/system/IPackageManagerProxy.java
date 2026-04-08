@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -52,7 +54,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
     protected void inject(Object baseInvocation, Object proxyInvocation) {
         BRActivityThread.get()._set_sPackageManager(proxyInvocation);
         replaceSystemService("package");
-        Object systemContext = BRActivityThread.get(PrisonCore.mainThread()).getSystemContext();
+        Object systemContext = BRActivityThread.get(VHost.mainThread()).getSystemContext();
         BRContextImpl.get(systemContext).getPackageManager();
         PackageManager packageManager = BRContextImpl.get(systemContext).mPackageManager();
         if (packageManager != null) {
@@ -352,7 +354,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             int uid = (Integer) args[0];
-            if (uid == PrisonCore.getUid()) {
+            if (uid == VHost.getUid()) {
                 args[0] = VActivityThread.getBoundUid();
                 uid = (int) args[0];
             }

@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Resources;
@@ -71,7 +73,7 @@ public class ContextWrapperHook {
         
         // Fallback to host context resources
         try {
-            Context hostContext = PrisonCore.getContext();
+            Context hostContext = VHost.getContext();
             if (hostContext != null) {
                 return hostContext.getResources();
             }
@@ -98,7 +100,7 @@ public class ContextWrapperHook {
             
             // If the base context is null, set it to a safe fallback
             if (currentBase == null) {
-                Context fallbackContext = PrisonCore.getContext();
+                Context fallbackContext = VHost.getContext();
                 if (fallbackContext != null) {
                     mBaseField.set(contextWrapper, fallbackContext);
                     Logger.d(TAG, "Replaced null base context with fallback context");

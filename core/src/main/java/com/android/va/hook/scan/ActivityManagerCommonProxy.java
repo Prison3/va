@@ -1,5 +1,7 @@
 package com.android.va.hook.scan;
 
+import com.android.va.runtime.VHost;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -48,10 +50,10 @@ public class ActivityManagerCommonProxy {
                 // Check if this is an attempt to install Prison app
                 if (file != null && file.exists()) {
                     try {
-                        PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageArchiveInfo(file.getAbsolutePath(), 0);
+                        PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(file.getAbsolutePath(), 0);
                         if (packageInfo != null) {
                             String packageName = packageInfo.packageName;
-                            String hostPackageName = PrisonCore.getPackageName();
+                            String hostPackageName = VHost.getPackageName();
                             if (packageName.equals(hostPackageName)) {
                                 Logger.w(TAG, "Blocked attempt to install Prison app from within Prison: " + packageName);
                                 // Return success but don't actually install
@@ -71,7 +73,7 @@ public class ActivityManagerCommonProxy {
             }
             String dataString = intent.getDataString();
             if (dataString != null && dataString.equals("package:" + VActivityThread.getAppPackageName())) {
-                intent.setData(Uri.parse("package:" + PrisonCore.getPackageName()));
+                intent.setData(Uri.parse("package:" + VHost.getPackageName()));
             }
 
             ResolveInfo resolveInfo = VPackageManager.get().resolveActivity(

@@ -1,5 +1,7 @@
 package com.android.actor.ui;
 
+import com.android.va.runtime.VHost;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -98,9 +100,9 @@ public class PagerApps extends BasePager {
         new Thread(() -> {
             try {
                 Logger.i(TAG, L + " refresh start");
-                Context ctx = PrisonCore.getContext();
+                Context ctx = VHost.getContext();
                 if (ctx == null) {
-                    Logger.e(TAG, L + " PrisonCore.getContext()==null → 未在 attachBaseContext 调用 PrisonCore.startUp？");
+                    Logger.e(TAG, L + " VHost.getContext()==null → 未在 attachBaseContext 调用 PrisonCore.startUp？");
                     ActApp.post(() -> Toast.makeText(mContext, "Prison 未初始化", Toast.LENGTH_SHORT).show());
                     return;
                 }
@@ -146,7 +148,7 @@ public class PagerApps extends BasePager {
                     }
                 }
 
-                String hostPkg = PrisonCore.getPackageName();
+                String hostPkg = VHost.getPackageName();
                 Logger.i(TAG, L + " hostPkg(filter)=" + hostPkg);
 
                 PackageManager pm = ctx.getPackageManager();
@@ -211,7 +213,7 @@ public class PagerApps extends BasePager {
 
             Drawable icon = null;
             try {
-                Context ctx = PrisonCore.getContext();
+                Context ctx = VHost.getContext();
                 if (ctx != null) {
                     icon = ctx.getPackageManager().getApplicationIcon(item.applicationInfo);
                 }

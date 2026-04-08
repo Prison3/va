@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.os.Build;
@@ -85,9 +87,9 @@ public class BroadcastManager implements PackageMonitor {
                 for (VPackageInfo.ActivityIntentInfo intent : intents) {
                     ProxyBroadcastReceiver proxyBroadcastReceiver = new ProxyBroadcastReceiver();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        PrisonCore.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter, Context.RECEIVER_EXPORTED);
+                        VHost.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter, Context.RECEIVER_EXPORTED);
                     }else{
-                        PrisonCore.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter);
+                        VHost.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter);
                     }
                     addReceiver(bPackage.packageName, proxyBroadcastReceiver);
                 }
@@ -129,7 +131,7 @@ public class BroadcastManager implements PackageMonitor {
                     Logger.d(TAG, "unregisterReceiver Package: " + packageName + ", size: " + broadcastReceivers.size());
                     for (BroadcastReceiver broadcastReceiver : broadcastReceivers) {
                         try {
-                            PrisonCore.getContext().unregisterReceiver(broadcastReceiver);
+                            VHost.getContext().unregisterReceiver(broadcastReceiver);
                         } catch (Throwable ignored) {
                         }
                     }

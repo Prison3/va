@@ -29,7 +29,7 @@ public class VActivityManager extends Manager<IActivityManagerService> {
     private static final VActivityManager sVActivityManager = new VActivityManager();
 
     private VActivityManager() {
-        mContext = PrisonCore.getContext();
+        mContext = VHost.getContext();
     }
 
     public static VActivityManager get() {

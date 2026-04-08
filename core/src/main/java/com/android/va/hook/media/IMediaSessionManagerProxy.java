@@ -1,5 +1,7 @@
 package com.android.va.hook.media;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 
 import java.lang.reflect.Method;
@@ -37,7 +39,7 @@ public class IMediaSessionManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             if (args != null && args.length > 0 && args[0] instanceof String) {
-                args[0] = PrisonCore.getPackageName();
+                args[0] = VHost.getPackageName();
             }
             return method.invoke(who, args);
         }

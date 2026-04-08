@@ -1,10 +1,11 @@
 package com.android.va.hook.content;
 
+import com.android.va.runtime.VHost;
+
 import android.os.IInterface;
 
 import java.lang.reflect.Method;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.hook.ClassInvocationStub;
 import com.android.va.utils.AttributionSourceUtils;
 
@@ -213,21 +214,21 @@ public class ContentProviderStub extends ClassInvocationStub implements IContent
             try {
                 java.lang.reflect.Field uidField = attributionSourceClass.getDeclaredField("mUid");
                 uidField.setAccessible(true);
-                uidField.set(attributionSource, PrisonCore.getUid());
+                uidField.set(attributionSource, VHost.getUid());
                 Logger.d(TAG, "Fixed AttributionSource UID via field access");
             } catch (NoSuchFieldException e) {
                 // Try alternative field names
                 try {
                     java.lang.reflect.Field uidField = attributionSourceClass.getDeclaredField("uid");
                     uidField.setAccessible(true);
-                    uidField.set(attributionSource, PrisonCore.getUid());
+                    uidField.set(attributionSource, VHost.getUid());
                     Logger.d(TAG, "Fixed AttributionSource UID via alternative field");
                 } catch (NoSuchFieldException e2) {
                     // Try using setter method
                     try {
                         java.lang.reflect.Method setUidMethod = attributionSourceClass.getDeclaredMethod("setUid", int.class);
                         setUidMethod.setAccessible(true);
-                        setUidMethod.invoke(attributionSource, PrisonCore.getUid());
+                        setUidMethod.invoke(attributionSource, VHost.getUid());
                         Logger.d(TAG, "Fixed AttributionSource UID via setter method");
                     } catch (Exception e3) {
                         Logger.w(TAG, "Could not fix AttributionSource UID: " + e3.getMessage());

@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
@@ -44,7 +46,7 @@ public class IAccessibilityManagerProxy extends BinderInvocationStub {
                 int index = args.length - 1;
                 Object arg = args[index];
                 if (arg instanceof Integer) {
-                    ApplicationInfo applicationInfo = PrisonCore.getContext().getApplicationInfo();
+                    ApplicationInfo applicationInfo = VHost.getContext().getApplicationInfo();
                     args[index] = VUserHandle.getUserId(applicationInfo.uid);
                 }
             }

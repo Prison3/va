@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +66,7 @@ public class XiaomiPermissionManager {
             return true;
         }
         
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         return ContextCompat.checkSelfPermission(context, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
     }
     
@@ -76,7 +78,7 @@ public class XiaomiPermissionManager {
             return true; // Not a Xiaomi device
         }
         
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         
         // Check various Xiaomi permissions
         try {
@@ -193,7 +195,7 @@ public class XiaomiPermissionManager {
             return;
         }
         
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         
         try {
             // Try to open Xiaomi autostart settings
@@ -222,7 +224,7 @@ public class XiaomiPermissionManager {
      * Open notification permission settings
      */
     public void openNotificationSettings() {
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         
         try {
             Intent intent = new Intent();
@@ -250,7 +252,7 @@ public class XiaomiPermissionManager {
             return;
         }
         
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         
         if (notificationManager == null) {
@@ -300,7 +302,7 @@ public class XiaomiPermissionManager {
             return;
         }
         
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         
         try {
             PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -338,7 +340,7 @@ public class XiaomiPermissionManager {
      */
     private void grantPermissionThroughReflection(String permission) {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             
             // Try to use PackageManager to grant permission
             PackageManager packageManager = context.getPackageManager();

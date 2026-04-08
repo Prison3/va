@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +15,7 @@ import com.android.va.base.PrisonCore;
 public class ProviderCall {
     public static Bundle callSafely(String authority, String methodName, String arg, Bundle bundle) {
         try {
-            return call(authority, PrisonCore.getContext(), methodName, arg, bundle, 5);
+            return call(authority, VHost.getContext(), methodName, arg, bundle, 5);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

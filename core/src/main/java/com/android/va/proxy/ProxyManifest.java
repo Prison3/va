@@ -1,5 +1,7 @@
 package com.android.va.proxy;
 
+import com.android.va.runtime.VHost;
+
 import java.util.Locale;
 
 import com.android.va.base.PrisonCore;
@@ -12,11 +14,11 @@ public class ProxyManifest {
     }
 
     public static String getBindProvider() {
-        return PrisonCore.getPackageName() + ".prison.SystemCallProvider";
+        return VHost.getPackageName() + ".prison.SystemCallProvider";
     }
 
     public static String getProxyAuthorities(int index) {
-        return String.format(Locale.CHINA, "%s.proxy_content_provider_%d", PrisonCore.getPackageName(), index);
+        return String.format(Locale.CHINA, "%s.proxy_content_provider_%d", VHost.getPackageName(), index);
     }
 
     public static String getProxyPendingActivity(int index) {
@@ -40,14 +42,14 @@ public class ProxyManifest {
     }
 
     public static String getProxyFileProvider() {
-        return PrisonCore.getPackageName() + ".prison.FileProvider";
+        return VHost.getPackageName() + ".prison.FileProvider";
     }
 
     public static String getProxyReceiver() {
-        return PrisonCore.getPackageName() + ".stub_receiver";
+        return VHost.getPackageName() + ".stub_receiver";
     }
 
     public static String getProcessName(int bPid) {
-        return PrisonCore.getPackageName() + ":p" + bPid;
+        return VHost.getPackageName() + ":p" + bPid;
     }
 }

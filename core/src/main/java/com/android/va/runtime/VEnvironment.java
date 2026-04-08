@@ -7,8 +7,8 @@ import com.android.va.base.PrisonCore;
 import com.android.va.utils.FileUtils;
 
 public class VEnvironment {
-    private static final File sVirtualRoot = new File(PrisonCore.getContext().getCacheDir().getParent(), "prison");
-    private static final File sExternalVirtualRoot = PrisonCore.getContext().getExternalFilesDir("prison");
+    private static final File sVirtualRoot = new File(VHost.getContext().getCacheDir().getParent(), "prison");
+    private static final File sExternalVirtualRoot = VHost.getContext().getExternalFilesDir("prison");
 
     public static File JUNIT_JAR = new File(getCacheDir(), "junit.apk");
     public static File EMPTY_JAR = new File(getCacheDir(), "empty.apk");

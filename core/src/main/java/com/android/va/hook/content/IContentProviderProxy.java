@@ -12,6 +12,7 @@ import com.android.va.utils.Logger;
  * IContentProvider Proxy to handle AttributionSource UID issues on Android 12+
  * This prevents crashes related to ContentProvider UID enforcement
  */
+@Deprecated
 public class IContentProviderProxy extends ClassInvocationStub {
     public static final String TAG = IContentProviderProxy.class.getSimpleName();
 

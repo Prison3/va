@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.net.Uri;
 
 import java.lang.reflect.Method;
@@ -24,7 +26,7 @@ public class ContentResolverProxy extends ClassInvocationStub {
     @Override
     protected Object getWho() {
         // Return the ContentResolver from the context
-        return PrisonCore.getContext().getContentResolver();
+        return VHost.getContext().getContentResolver();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
@@ -196,7 +198,7 @@ public class DexFileRecovery {
         @Override
         public RecoveryResult attemptRecovery(String corruptedFilePath) {
             try {
-                Context hostContext = PrisonCore.getContext();
+                Context hostContext = VHost.getContext();
                 if (hostContext != null) {
                     ApplicationInfo appInfo = hostContext.getApplicationInfo();
                     if (appInfo != null && appInfo.sourceDir != null) {
@@ -308,7 +310,7 @@ public class DexFileRecovery {
                 ZipEntry dexEntry = zipFile.getEntry("classes.dex");
                 if (dexEntry != null) {
                     // Create extraction directory
-                    File extractDir = new File(PrisonCore.getContext().getCacheDir(), "dex_recovery");
+                    File extractDir = new File(VHost.getContext().getCacheDir(), "dex_recovery");
                     if (!extractDir.exists()) {
                         extractDir.mkdirs();
                     }

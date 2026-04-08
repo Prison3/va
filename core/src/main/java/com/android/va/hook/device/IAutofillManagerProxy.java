@@ -1,5 +1,7 @@
 package com.android.va.hook.device;
 
+import com.android.va.runtime.VHost;
+
 import android.content.ComponentName;
 
 import java.lang.reflect.Method;
@@ -45,7 +47,7 @@ public class IAutofillManagerProxy extends BinderInvocationStub {
                     if (args[i] == null)
                         continue;
                     if (args[i] instanceof ComponentName) {
-                        args[i] = new ComponentName(PrisonCore.getPackageName(), ProxyManifest.getProxyActivity(VActivityThread.getAppPid()));
+                        args[i] = new ComponentName(VHost.getPackageName(), ProxyManifest.getProxyActivity(VActivityThread.getAppPid()));
                     }
                 }
             }

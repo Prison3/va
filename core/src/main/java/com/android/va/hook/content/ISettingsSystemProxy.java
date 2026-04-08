@@ -12,6 +12,7 @@ import com.android.va.utils.Logger;
  * ISettingsSystem Proxy to handle AttributionSource UID issues on Android 12+
  * This prevents crashes related to Settings.System UID enforcement
  */
+@Deprecated
 public class ISettingsSystemProxy extends ClassInvocationStub {
     public static final String TAG = ISettingsSystemProxy.class.getSimpleName();
 

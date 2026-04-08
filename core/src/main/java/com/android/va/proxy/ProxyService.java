@@ -1,5 +1,7 @@
 package com.android.va.proxy;
 
+import com.android.va.runtime.VHost;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -61,7 +63,7 @@ public class ProxyService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".prison_proxy")
                 .setPriority(NotificationCompat.PRIORITY_MAX);
         if (BuildCompat.isOreo()) {
-            startForeground(PrisonCore.getPackageName().hashCode(), builder.build());
+            startForeground(VHost.getPackageName().hashCode(), builder.build());
         }
     }
 

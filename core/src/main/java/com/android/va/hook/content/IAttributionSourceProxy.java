@@ -1,5 +1,6 @@
 package com.android.va.hook.content;
 
+import com.android.va.runtime.VHost;
 
 
 import com.android.va.hook.MethodHook;
@@ -16,6 +17,8 @@ import java.lang.reflect.Method;
  * AttributionSource Proxy to handle UID mismatch issues on Android 12+
  * This prevents crashes related to AttributionSource UID enforcement
  */
+
+@Deprecated
 public class IAttributionSourceProxy extends ClassInvocationStub {
     public static final String TAG = "IAttributionSourceProxy";
 
@@ -47,8 +50,8 @@ public class IAttributionSourceProxy extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             try {
                 // Always create AttributionSource with correct UID to prevent crashes
-                int uid = PrisonCore.getUid();
-                String packageName = PrisonCore.getPackageName();
+                int uid = VHost.getUid();
+                String packageName = VHost.getPackageName();
 
                 Logger.d(TAG, "Creating AttributionSource with UID: " + uid + ", package: " + packageName);
 
@@ -62,7 +65,7 @@ public class IAttributionSourceProxy extends ClassInvocationStub {
                 return method.invoke(who, args);
             } catch (Exception e) {
                 Logger.w(TAG, "Error creating AttributionSource, using fallback: " + e.getMessage());
-                return createSafeAttributionSource(PrisonCore.getUid(), PrisonCore.getPackageName());
+                return createSafeAttributionSource(VHost.getUid(), VHost.getPackageName());
             }
         }
 
@@ -153,10 +156,10 @@ public class IAttributionSourceProxy extends ClassInvocationStub {
                 }
 
                 // If original method fails, create a safe fallback
-                return createSafeAttributionSource(PrisonCore.getUid(), PrisonCore.getPackageName());
+                return createSafeAttributionSource(VHost.getUid(), VHost.getPackageName());
             } catch (Exception e) {
                 Logger.w(TAG, "Error in fromParcel, using fallback: " + e.getMessage());
-                return createSafeAttributionSource(PrisonCore.getUid(), PrisonCore.getPackageName());
+                return createSafeAttributionSource(VHost.getUid(), VHost.getPackageName());
             }
         }
 
@@ -166,9 +169,9 @@ public class IAttributionSourceProxy extends ClassInvocationStub {
                 Class<?> attributionSourceClass = attributionSource.getClass();
                 Method setUidMethod = attributionSourceClass.getDeclaredMethod("setUid", int.class);
                 setUidMethod.setAccessible(true);
-                setUidMethod.invoke(attributionSource, PrisonCore.getUid());
+                setUidMethod.invoke(attributionSource, VHost.getUid());
 
-                Logger.d(TAG, "Fixed AttributionSource UID to: " + PrisonCore.getUid());
+                Logger.d(TAG, "Fixed AttributionSource UID to: " + VHost.getUid());
             } catch (Exception e) {
                 Logger.w(TAG, "Could not fix AttributionSource UID: " + e.getMessage());
             }

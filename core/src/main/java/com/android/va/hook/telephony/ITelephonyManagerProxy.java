@@ -1,5 +1,7 @@
 package com.android.va.hook.telephony;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.os.IBinder;
 import java.lang.reflect.Method;
@@ -48,7 +50,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
 //                return method.invoke(who, args);
             Object original = method.invoke(who, args);
             if (original == null) return null;
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 
@@ -60,7 +62,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
 //                return method.invoke(who, args);
             Object original = method.invoke(who, args);
             if (original == null) return null;
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 
@@ -72,7 +74,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
 //                return method.invoke(who, args);
             Object original = method.invoke(who, args);
             if (original == null) return null;
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 
@@ -99,7 +101,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Object original = method.invoke(who, args);
             if (original == null) return null;
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 
@@ -109,7 +111,7 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Object original = method.invoke(who, args);
             if (original == null) return null;
-            return Md5Utils.md5(PrisonCore.getPackageName());
+            return Md5Utils.md5(VHost.getPackageName());
         }
     }
 

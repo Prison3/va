@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 
@@ -20,7 +22,7 @@ public class ContextCompat {
             mAttributionSourceState = BRAttributionSource.get(obj).mAttributionSourceState();
 
             AttributionSourceStateContext attributionSourceStateContext = BRAttributionSourceState.get(mAttributionSourceState);
-            attributionSourceStateContext._set_packageName(PrisonCore.getPackageName());
+            attributionSourceStateContext._set_packageName(VHost.getPackageName());
             attributionSourceStateContext._set_uid(uid);
             fixAttributionSourceState(BRAttributionSource.get(obj).getNext(), uid);
         }
@@ -56,18 +58,18 @@ public class ContextCompat {
                 e.printStackTrace();
             }
 
-            BRContextImpl.get(context)._set_mBasePackageName(PrisonCore.getPackageName());
-            BRContextImplKitkat.get(context)._set_mOpPackageName(PrisonCore.getPackageName());
+            BRContextImpl.get(context)._set_mBasePackageName(VHost.getPackageName());
+            BRContextImplKitkat.get(context)._set_mOpPackageName(VHost.getPackageName());
             
             try {
-                BRContentResolver.get(context.getContentResolver())._set_mPackageName(PrisonCore.getPackageName());
+                BRContentResolver.get(context.getContentResolver())._set_mPackageName(VHost.getPackageName());
             } catch (Exception e) {
                 Logger.w(TAG, "Failed to fix content resolver: " + e.getMessage());
             }
 
             if (BuildCompat.isS()) {
                 try {
-                    fixAttributionSourceState(BRContextImpl.get(context).getAttributionSource(), PrisonCore.getUid());
+                    fixAttributionSourceState(BRContextImpl.get(context).getAttributionSource(), VHost.getUid());
                 } catch (Exception e) {
                     Logger.w(TAG, "Failed to fix attribution source state: " + e.getMessage());
                 }

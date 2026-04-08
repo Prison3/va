@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
@@ -380,7 +382,7 @@ public class DexCrashPrevention {
      */
     private static String getVirtualAppDirectory() {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 ApplicationInfo appInfo = context.getApplicationInfo();
                 if (appInfo != null && appInfo.sourceDir != null) {

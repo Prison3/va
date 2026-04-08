@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +42,7 @@ public class SystemServer {
         return sSystemServer;
     }
     private SystemServer() {
-        mContext = PrisonCore.getContext();
+        mContext = VHost.getContext();
     }
 
     /**

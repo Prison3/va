@@ -1,12 +1,13 @@
-package com.android.va.hook;
+package com.android.va.hook.content;
+
+import com.android.va.runtime.VHost;
 
 import android.os.IInterface;
 
 import java.lang.reflect.Method;
 
-import com.android.va.hook.content.IContentProvider;
+import com.android.va.hook.ClassInvocationStub;
 import com.android.va.mirror.android.content.BRAttributionSource;
-import com.android.va.base.PrisonCore;
 import com.android.va.utils.ContextCompat;
 
 public class SystemProviderStub extends ClassInvocationStub implements IContentProvider {
@@ -55,7 +56,7 @@ public class SystemProviderStub extends ClassInvocationStub implements IContentP
                 for (int i = 0; i < args.length; i++) {
                     Object arg = args[i];
                     if (arg != null && arg.getClass().getName().equals(BRAttributionSource.getRealClass().getName())) {
-                        ContextCompat.fixAttributionSourceState(arg, PrisonCore.getUid());
+                        ContextCompat.fixAttributionSourceState(arg, VHost.getUid());
                     }
                 }
             }
@@ -69,10 +70,10 @@ public class SystemProviderStub extends ClassInvocationStub implements IContentP
                 String authority = (String) arg;
                 // Only replace if it's not a system provider authority
                 if (!isSystemProviderAuthority(authority)) {
-                    args[0] = PrisonCore.getPackageName();
+                    args[0] = VHost.getPackageName();
                 }
             } else if (arg != null && arg.getClass().getName().equals(BRAttributionSource.getRealClass().getName())) {
-                ContextCompat.fixAttributionSourceState(arg, PrisonCore.getUid());
+                ContextCompat.fixAttributionSourceState(arg, VHost.getUid());
             }
         }
         return method.invoke(mBase, args);

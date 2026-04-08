@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
@@ -89,7 +91,7 @@ public class ServiceManager {
         for (String preInstallPackage : preInstallPackages) {
             try {
                 if (!PackageManagerService.get().isInstalled(preInstallPackage, VUserHandle.USER_ALL)) {
-                    PackageInfo packageInfo = PrisonCore.getContext().getPackageManager().getPackageInfo(preInstallPackage, 0);
+                    PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageInfo(preInstallPackage, 0);
                     PackageManagerService.get().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), VUserHandle.USER_ALL);
                 }
             } catch (PackageManager.NameNotFoundException ignored) {

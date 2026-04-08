@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Process;
@@ -33,7 +35,7 @@ public class UIDSpoofingHelper {
      */
     public static int getPackageUID(String packageName) {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 // Try to get the real UID for the package
                 PackageManager pm = context.getPackageManager();

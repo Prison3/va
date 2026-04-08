@@ -1,5 +1,7 @@
 package com.android.va.hook.resources;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 
 import java.lang.reflect.Method;
@@ -25,7 +27,7 @@ public class WorkManagerProxy extends ClassInvocationStub {
     @Override
     protected Object getWho() {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 // Try to get the real WorkManager instance
                 Class<?> workManagerClass = Class.forName("androidx.work.WorkManager");

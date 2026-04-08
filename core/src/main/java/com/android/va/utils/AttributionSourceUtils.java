@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import com.android.va.base.PrisonCore;
 
 /**
@@ -56,7 +58,7 @@ public class AttributionSourceUtils {
                 try {
                     java.lang.reflect.Field uidField = attributionSourceClass.getDeclaredField(fieldName);
                     uidField.setAccessible(true);
-                    uidField.set(attributionSource, PrisonCore.getUid());
+                    uidField.set(attributionSource, VHost.getUid());
                     Logger.d(TAG, "Fixed AttributionSource UID via field: " + fieldName);
                     break;
                 } catch (NoSuchFieldException e) {
@@ -68,7 +70,7 @@ public class AttributionSourceUtils {
             try {
                 java.lang.reflect.Method setUidMethod = attributionSourceClass.getDeclaredMethod("setUid", int.class);
                 setUidMethod.setAccessible(true);
-                setUidMethod.invoke(attributionSource, PrisonCore.getUid());
+                setUidMethod.invoke(attributionSource, VHost.getUid());
                 Logger.d(TAG, "Fixed AttributionSource UID via setter method");
             } catch (Exception e) {
                 // Ignore setter method errors
@@ -81,7 +83,7 @@ public class AttributionSourceUtils {
                 try {
                     java.lang.reflect.Field packageField = attributionSourceClass.getDeclaredField(fieldName);
                     packageField.setAccessible(true);
-                    packageField.set(attributionSource, PrisonCore.getPackageName());
+                    packageField.set(attributionSource, VHost.getPackageName());
                     Logger.d(TAG, "Fixed AttributionSource package name via field: " + fieldName);
                     break;
                 } catch (NoSuchFieldException e) {
@@ -138,7 +140,7 @@ public class AttributionSourceUtils {
                 // Try constructor with UID and package name
                 java.lang.reflect.Constructor<?> constructor = attributionSourceClass.getDeclaredConstructor(int.class, String.class);
                 constructor.setAccessible(true);
-                attributionSource = constructor.newInstance(PrisonCore.getUid(), PrisonCore.getPackageName());
+                attributionSource = constructor.newInstance(VHost.getUid(), VHost.getPackageName());
             } catch (Exception e) {
                 try {
                     // Try default constructor

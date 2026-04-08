@@ -1,5 +1,7 @@
 package com.android.va.hook.app;
 
+import com.android.va.runtime.VHost;
+
 import android.app.Activity;
 import android.app.Application;
 import android.app.Instrumentation;
@@ -44,14 +46,14 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
             if (mInstrumentation == this || checkInstrumentation(mInstrumentation))
                 return;
             mBaseInstrumentation = (Instrumentation) mInstrumentation;
-            BRActivityThread.get(PrisonCore.mainThread())._set_mInstrumentation(this);
+            BRActivityThread.get(VHost.mainThread())._set_mInstrumentation(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private Instrumentation getCurrInstrumentation() {
-        Object currentActivityThread = PrisonCore.mainThread();
+        Object currentActivityThread = VHost.mainThread();
         return BRActivityThread.get(currentActivityThread).mInstrumentation();
     }
 

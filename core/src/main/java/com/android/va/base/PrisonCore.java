@@ -9,14 +9,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Process;
 import android.view.WindowManager;
 import java.lang.reflect.Field;
 
 import me.weishu.reflection.Reflection;
+
+import com.android.va.hook.content.ContentProviderDelegate;
+import com.android.va.runtime.VHost;
 import com.android.va.runtime.VEnvironment;
-import com.android.va.mirror.android.app.BRActivityThread;
-import com.android.va.mirror.android.os.BRUserHandle;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VNativeCore;
 import com.android.va.system.SystemServer;
@@ -36,16 +36,11 @@ import com.android.va.utils.Logger;
 public final class PrisonCore {
     public static final String TAG = PrisonCore.class.getSimpleName();
     private static final PrisonCore S_PRISON_CORE = new PrisonCore();
-    private Context mContext;
     private ProcessType.Type mProcessType;
     private Thread.UncaughtExceptionHandler mExceptionHandler;
     private Settings mSettings;
     private AppCallback mAppCallback;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private int mUid;
-    private int mUserId;
-    private String mPackageName;
-
     private PrisonCore() {
     }
 
@@ -55,18 +50,6 @@ public final class PrisonCore {
     public Handler getHandler() {
         return mHandler;
     }
-    public static String getPackageName() {
-        return get().mPackageName;
-    }
-    public static int getUid() {
-        return get().mUid;
-    }
-    public static int getUserId() {
-        return get().mUserId;
-    }
-    public static Context getContext() {
-        return get().mContext;
-    }
     public Thread.UncaughtExceptionHandler getExceptionHandler() {
         return mExceptionHandler;
     }
@@ -74,13 +57,10 @@ public final class PrisonCore {
         mExceptionHandler = exceptionHandler;
     }
     public void startUp(Context context, Settings settings, AppCallback appCallback) {
-        mContext = context;
-        mUid = Process.myUid();
-        mPackageName = context.getPackageName();
-        mUserId = BRUserHandle.get().myUserId();
+        VHost.get().attach(context);
         mSettings = settings;
         mAppCallback = appCallback;
-        mProcessType = ProcessType.determineProcessType(mContext);
+        mProcessType = ProcessType.determineProcessType(VHost.getContext());
 
         try {
             SimpleCrashFix.installSimpleFix();
@@ -99,7 +79,7 @@ public final class PrisonCore {
         initVpnService();
 
         if (isMainProcess()) {
-            LogcatManager.get().init(mContext).start();
+            LogcatManager.get().init(VHost.getContext()).start();
         }
         if (isServerProcess() && settings.isEnableDaemonService()) {
             SystemServer.get().startDaemon();
@@ -144,10 +124,6 @@ public final class PrisonCore {
                 Logger.e(TAG, "Fallback initialization also failed", fallbackEx);
             }
         }
-    }
-
-    public static Object mainThread() {
-        return BRActivityThread.get().currentActivityThread();
     }
 
     public void startActivity(Intent intent, int userId) {
@@ -204,8 +180,8 @@ public final class PrisonCore {
     }
 
     private void initNotificationManager() {
-        NotificationManager nm = (NotificationManager) PrisonCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = PrisonCore.getContext().getPackageName() + ".prison_core";
+        NotificationManager nm = (NotificationManager) VHost.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ONE_ID = VHost.getPackageName() + ".prison_core";
         String CHANNEL_ONE_NAME = "prison_core";
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID, CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.enableLights(true);
@@ -282,13 +258,13 @@ public final class PrisonCore {
                 public void run() {
                     try {
                         // Start the VPN service to ensure internet access works
-                        Intent vpnIntent = new Intent(getContext(), com.android.va.proxy.ProxyVpnService.class);
+                        Intent vpnIntent = new Intent(VHost.getContext(), com.android.va.proxy.ProxyVpnService.class);
                         vpnIntent.setAction("android.net.VpnService");
                         
                         if (BuildCompat.isOreo()) {
-                            getContext().startForegroundService(vpnIntent);
+                            VHost.getContext().startForegroundService(vpnIntent);
                         } else {
-                            getContext().startService(vpnIntent);
+                            VHost.getContext().startService(vpnIntent);
                         }
                         
                         Logger.d(TAG, "VPN service started successfully for internet access");
@@ -316,6 +292,6 @@ public final class PrisonCore {
         if (packageName == null || packageName.isEmpty()) {
             return false;
         }
-        return packageName.equals(getPackageName());
+        return packageName.equals(VHost.getPackageName());
     }
 }

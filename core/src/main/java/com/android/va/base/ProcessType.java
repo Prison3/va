@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Process;
 
 import com.android.va.R;
+import com.android.va.runtime.VHost;
 import com.android.va.utils.Logger;
 
 import java.util.List;
@@ -95,7 +96,7 @@ public class ProcessType {
      */
     public static Type determineProcessType(Context context) {
         String processName = getProcessName(context);
-        if (processName.equals(PrisonCore.getPackageName())) {
+        if (processName.equals(VHost.getPackageName())) {
             return Type.Main;
         } else if (processName.endsWith(context.getString(R.string.server_process))) {
             return Type.Server;

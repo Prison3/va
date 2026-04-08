@@ -1,5 +1,7 @@
 package com.android.va.utils;
 
+import com.android.va.runtime.VHost;
+
 import com.android.va.runtime.VActivityThread;
 import com.android.va.base.PrisonCore;
 
@@ -141,7 +143,7 @@ public class SystemHookManager {
                 Logger.d(TAG, "Found ActivityThread class");
                 
                 // Get the current ActivityThread instance
-                Object activityThread = PrisonCore.mainThread();
+                Object activityThread = VHost.mainThread();
                 if (activityThread != null) {
                     Logger.d(TAG, "Found ActivityThread instance");
                     
@@ -191,7 +193,7 @@ public class SystemHookManager {
     private static void replaceControllerInstance(Class<?> controllerClass, Object proxy, String controllerName) {
         try {
             // Look for the instance in ActivityThread
-            Object activityThread = PrisonCore.mainThread();
+            Object activityThread = VHost.mainThread();
             if (activityThread != null) {
                 // Try to find the controller field
                 Field[] fields = activityThread.getClass().getDeclaredFields();
@@ -234,7 +236,7 @@ public class SystemHookManager {
     private static void ensureAllActivitiesHaveContext() {
         try {
             // Get all activity records from ActivityThread
-            Object activityThread = PrisonCore.mainThread();
+            Object activityThread = VHost.mainThread();
             if (activityThread != null) {
                 // Try to get the activity records
                 try {

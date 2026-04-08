@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 import com.android.va.utils.Logger;
 import java.io.File;
@@ -128,7 +130,7 @@ public class JarManager {
      * Initialize JAR environment with improved error handling
      */
     private void initializeJarEnvironment() {
-        Context context = PrisonCore.getContext();
+        Context context = VHost.getContext();
         if (context == null) {
             throw new IllegalStateException("Prison context is null");
         }

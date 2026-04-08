@@ -1,5 +1,7 @@
 package com.android.actor;
 
+import com.android.va.runtime.VHost;
+
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -69,7 +71,7 @@ public class ActApp extends Application {
             return;
         }
         app = this;
-        if (PrisonCore.getContext() == null) {
+        if (VHost.getContext() == null) {
             PrisonCore.get().startUp(this, new ActorPrisonSettings(this), new ActorPrisonAppCallback());
         }
     }

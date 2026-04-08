@@ -1,5 +1,7 @@
 package com.android.va.hook.account;
 
+import com.android.va.runtime.VHost;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
@@ -30,7 +32,7 @@ public class GoogleAccountManagerProxy extends ClassInvocationStub {
     @Override
     protected Object getWho() {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 return AccountManager.get(context);
             }
@@ -321,7 +323,7 @@ public class GoogleAccountManagerProxy extends ClassInvocationStub {
      */
     private static boolean isGoogleApp() {
         try {
-            Context context = PrisonCore.getContext();
+            Context context = VHost.getContext();
             if (context != null) {
                 String packageName = context.getPackageName();
                 return packageName != null && (

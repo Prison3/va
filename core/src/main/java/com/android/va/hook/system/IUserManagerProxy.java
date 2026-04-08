@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.content.Context;
 
 import java.lang.reflect.Method;
@@ -38,7 +40,7 @@ public class IUserManagerProxy extends BinderInvocationStub {
     public static class GetApplicationRestrictions extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            args[0] = PrisonCore.getPackageName();
+            args[0] = VHost.getPackageName();
             return method.invoke(who, args);
         }
     }

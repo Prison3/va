@@ -1,5 +1,7 @@
 package com.android.va.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,8 +33,8 @@ public class NotificationChannelManager {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void registerAppChannel() {
-        NotificationManager nm = (NotificationManager) PrisonCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = PrisonCore.getContext().getPackageName();
+        NotificationManager nm = (NotificationManager) VHost.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ONE_ID = VHost.getContext().getPackageName();
         String CHANNEL_ONE_NAME = "black-box-app";
         APP_CHANNEL = new NotificationChannel(CHANNEL_ONE_ID,
                 CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);

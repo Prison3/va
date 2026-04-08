@@ -1,5 +1,7 @@
 package com.android.va.hook.system;
 
+import com.android.va.runtime.VHost;
+
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.os.IBinder;
@@ -33,7 +35,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
     @Override
     protected void inject(Object baseInvocation, Object proxyInvocation) {
         if (BRAppOpsManager.get(null)._check_mService() != null) {
-            AppOpsManager appOpsManager = (AppOpsManager) PrisonCore.getContext().getSystemService(Context.APP_OPS_SERVICE);
+            AppOpsManager appOpsManager = (AppOpsManager) VHost.getContext().getSystemService(Context.APP_OPS_SERVICE);
             try {
                 BRAppOpsManager.get(appOpsManager)._set_mService(getProxyInvocation());
             } catch (Exception e) {
