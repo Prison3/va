@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:id="@+id/no_delay_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No delay" />
+
+    <ScrollView
+        android:id='@+id/log_scroll'
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/log_text"
+            android:gravity="bottom"
+            android:paddingBottom="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
+</LinearLayout>

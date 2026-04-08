@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+include ':api'
+include ':reflection'
+include ':compiler'
+include ':beer'
+include ':core'
+rootProject.name = 'va'
+include ':app'

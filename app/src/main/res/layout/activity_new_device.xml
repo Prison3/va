@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/device_select_app"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:onClick="onSelectAppClicked"
+            android:text="@string/select_app" />
+
+        <TextView
+            android:id="@+id/device_select_app_text"
+            android:layout_width="310dp"
+            android:layout_height="match_parent"
+            android:textSize="12sp"
+            android:gravity="center_vertical"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/device_select_app_extra"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/country_us"
+                        android:text="美国"
+                        android:checked="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_uk"
+                        android:text="英国"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_br"
+                        android:text="巴西"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_mx"
+                        android:text="墨西哥"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_co"
+                        android:text="哥伦比亚"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_au"
+                        android:text="澳大利亚"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_fr"
+                        android:text="法国"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_de"
+                        android:text="德国"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_it"
+                        android:text="意大利"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_es"
+                        android:text="西班牙"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_cn"
+                        android:text="中国"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_jp"
+                        android:text="日本"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_my"
+                        android:text="马来西亚"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_th"
+                        android:text="泰国"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_ph"
+                        android:text="菲律宾"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_vn"
+                        android:text="越南"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_sg"
+                        android:text="新加坡"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_in"
+                        android:text="印度"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:id="@+id/country_ae"
+                        android:text="阿联酋"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+            </ScrollView>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:fadeScrollbars="false">
+
+            <RadioGroup
+                android:id="@+id/device_model_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </RadioGroup>
+        </ScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/device_new_device_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:onClick="onNewDeviceClicked"
+            android:text="开始换机" />
+
+        <Button
+            android:id="@+id/device_reset_device_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:onClick="onResetDeviceClicked"
+            android:text="还原为默认参数" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/device_new_output"
+        android:text="output"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:textSize="12sp"
+        android:textColor="#000000" />
+    <TextView
+        android:text="mocked_list:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/device_mocked_package"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

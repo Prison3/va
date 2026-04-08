@@ -1,0 +1,359 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+option go_package = "node/api/common";
+option java_multiple_files = true;
+option java_package = "com.android.proto.common";
+option java_outer_classname = "CommonProto";
+
+package rocket;
+
+message Message {
+  google.protobuf.Any variant = 1;
+}
+
+message HelloReq {// 用于node主动检测actor连接是否断开
+}
+
+message HelloResp {
+}
+
+message GetInstalledAppReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+}
+
+message GetInstalledAppResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  map<string, string> apps = 2;  // app包名及其对应版本
+}
+
+message DeviceMockReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string app_name = 3;
+  string params = 4;  // json格式字符串
+}
+
+message DeviceMockResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+}
+
+message DeviceUnmockReq {// 复位设备参数
+  string client_id = 1;
+  string serial = 2;
+  string app_name = 3;
+}
+
+message DeviceUnmockResp {
+  string client_id = 1;
+  bool success = 2;
+  string reason = 3;
+}
+
+message GetDeviceMockParamsReq {
+  string client_id = 1;
+  string serial = 2;
+  string app_name = 3;
+}
+
+message GetDeviceMockParamsResp {
+  string client_id = 1;
+  bool success = 2;
+  string data = 3;  // sucess为true时，data存放json格式字符串
+  string reason = 4;  // success为false时，reason填写错误原因
+}
+
+message ManageAppReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string cmd = 3; // 支持命令有install, uninstall, update, clear, start, stop, restart
+  string app_name = 4;  // 包名，uninstall、clear, start, stop, restart命令时有效
+  string apk_cdn_url = 5; // install, update时有效
+  string activity_name = 6; // start, restart命令时有效
+}
+
+message ManageAppResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+}
+
+message RebootReq {// 重启手机
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+}
+
+message RebootResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+}
+
+message ProxyReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string proxy = 3;  // 指定代理地址
+  string app = 4;  // 指定app
+}
+
+message ProxyResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+}
+
+message RunScriptReq {// 运行脚本
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;  // 脚本执行任务uuid
+  string lua_script = 4;  // 支持2种格式，str:前缀表示存放的是lua脚本字符串，url:前缀表示需要从cdn地址下载脚本
+  map<string, string> script_params = 5; // 脚本执行参数
+  uint32 quota = 6;  // 时间配额，允许脚本运行多长时间，超过quota会被停掉
+}
+
+message RunScriptResp {
+  string client_id = 1;
+  string task_id = 2;
+  bool success = 3;
+  string reason = 4;
+}
+
+message RunScriptCheckingReq {// 检查脚本运行状态
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;  // 脚本执行执行任务id
+}
+
+message RunScriptCheckingResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  string task_id = 2;  // 脚本执行任务uuid
+  string status = 3;  // 脚本执行状态，可能值为：running, success, failed, stopped, notfound
+  string log = 4;  // 日志信息, success, failed, stopped状态时有效
+  string script_result = 5; // 脚本执行结果, success, failed, stopped状态时有效
+  string script_record = 6;
+}
+
+message StopScriptReq {// 停止脚本运行
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;
+}
+
+message StopScriptResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  string task_id = 2;
+  bool success = 3;
+  string reason = 4;
+}
+
+message XposedApiReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string app = 3;
+  string action = 4;
+  map<string, string> body = 5;  // json格式字符串
+  map<string, string> script_params = 6; // 脚本执行参数
+}
+
+message XposedApiResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+  string body = 4;  // json格式字符串
+  string proxy = 5; // 代理地址
+}
+
+message SmsMessage {
+  bool send = 1; // true，发短信；false，收短信；忽略彩铃，非文本短信
+  string from = 2; // 发短信的手机号
+  string to = 3; // 收短信的手机号
+  string content = 4; // 短信内容
+  uint64 timestamp = 5; // 时间戳
+}
+
+message SmsHistoryReq {// 获取短信历史记录，按收到时间倒序排序
+  string client_id = 1;
+  string serial = 2;
+  string filter = 3; // 过滤，返回的短信手机号或文本必须包含
+  uint32 size = 4; // 一次返回的数量，默认10条
+  uint32 page = 5; // 查询页码
+}
+
+message SmsHistoryResp {
+  string client_id = 1;
+  bool success = 2;
+  string reason = 3;
+  uint32 total = 4; // 短信总数
+  repeated SmsMessage history = 5; // 短信历史记录，时间戳是sms.db里面的时间
+}
+
+message SmsSendReq {// 让设备发送短信
+  string client_id = 1;
+  string serial = 2;
+  string to = 3; // 要发送对象的短信号码
+  string content = 4; // 短信的内容
+}
+
+message SmsSendResp {
+  string client_id = 1;
+  bool success = 2;
+  string reason = 3;
+  string serial = 4; // 方便node存储
+  SmsMessage msg = 5; // 返回短信信息，用于node存储，时间戳是短信发送的时间
+}
+
+message TRegisterNewReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;
+  map<string, string> params = 4; // 执行参数, proxy , a4 等
+  string script = 5;
+  uint32 quota = 6;
+  map<string, string> script_params = 7; // lua脚本执行参数
+}
+
+message TRegisterNewResp {
+  string client_id = 1;
+  string task_id = 2;
+  bool success = 3;
+  string reason = 4;
+}
+
+message TCheckRegisterReq {// 检查脚本运行状态
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;  // 脚本执行执行任务id
+}
+
+message TCheckRegisterResp{
+  string client_id = 1;
+  string task_id = 2;
+  string status = 3;
+  string log = 4;
+  string script_result = 5;
+  string register_information = 6;
+}
+
+message TSwipeSyncReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;
+  string script = 4;
+  uint32 quota = 5;
+}
+
+message TSwipeSyncResp {
+  string client_id = 1;
+  string task_id = 2;
+  bool success = 3;
+  string reason = 4;
+}
+
+message TSwipeEndReq {
+  string client_id = 1;
+  string serial = 2;
+  string task_id = 3;
+}
+
+message TSwipeEndResp {
+  string client_id = 1;
+  string task_id = 2;
+  bool success = 3;
+  string reason = 4;
+}
+
+message AirplaneModeStartAndEndReq {
+  string client_id = 1;
+  string serial = 2;
+}
+
+
+message AirplaneModeStartAndEndResp {
+  string client_id = 1;
+  string serial = 2;
+  bool success = 3;
+  string export_ip = 4;
+}
+
+message CheckAirplaneModeStartAndEndReq {
+  string client_id = 1;
+  string serial = 2;
+}
+
+message CheckAirplaneModeStartAndEndResp {
+  string client_id = 1;
+  string serial = 2;
+  string export_ip_before_switching = 3;
+  string export_ip_after_switching = 4;
+  bool success = 5;
+}
+
+message TGetDetailReq {
+  string client_id = 1;
+  string serial = 2;
+  string task_id = 3;
+  map<string, string> params = 4; //执行参数, proxy
+  string script = 5;
+  uint32 quota = 6;
+  map<string, string> script_params = 7; // lua脚本执行参数
+}
+
+message TGetDetailResp {
+  string client_id = 1;
+  string serial = 2;
+  string task_id = 3;
+  map<string, string> result = 4;
+  bool success = 5;
+}
+
+message  TCheckDetailReq {
+  string client_id = 1;
+  string serial = 2;
+  string task_id = 3;
+}
+
+message TCheckDetailResp {
+  string client_id = 1;
+  string serial = 2;
+  string task_id = 3;
+  string status = 4;
+  string log = 5;
+  string script_result = 6;
+  map<string, string> result = 7;
+}
+
+message AppRegisterReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string task_id = 3;  // 脚本执行执行任务id
+  string pkg_name = 4; // 包名
+  string proxy = 5; // 代理
+  string country = 6; // 国家
+  map <string, string> script_params = 7; // 脚本执行参数
+}
+
+message AppRegisterResp{
+  string client_id = 1;
+  string task_id = 2;
+  bool success = 4;
+  string reason = 5;
+}
+
+message GetSpInformationReq{
+  string client_id = 1;
+  string serial = 2;
+  string module_name = 3;
+  string key = 4;
+}
+
+message GetSpInformationResp{
+  string client_id = 1;
+  string serial = 2;
+  string module_name = 3;
+  string key = 4;
+  string value = 5;
+}

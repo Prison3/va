@@ -1,0 +1,27 @@
+bindAddress: :%1$s
+dohEnabled: false
+primaryDNS:
+  - name: Google
+    address: 8.8.8.8:53
+    protocol: tcp
+    socks5Address: 127.0.0.1:%2$s
+    timeout: 12
+    ednsClientSubnet:
+      policy: disable
+      externalIP:
+      noCookie: true
+  - name: Cloudflare
+    address: 1.1.1.1:53
+    protocol: tcp
+    socks5Address: 127.0.0.1:%2$s
+    timeout: 12
+    ednsClientSubnet:
+      policy: disable
+      externalIP:
+      noCookie: true
+onlyPrimaryDNS: true
+ipv6UseAlternativeDNS: false
+minimumTTL: 600
+cacheSize: 4096
+rejectQType:
+  - 255

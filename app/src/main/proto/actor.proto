@@ -1,0 +1,96 @@
+syntax = "proto3";
+import "common.proto";
+
+option go_package = "node/api/actor";
+option java_multiple_files = true;
+option java_package = "com.android.proto.actor";
+option java_outer_classname = "ActorProto";
+
+package rocket;
+
+service ActorSrv {
+  rpc Chat(stream Message) returns (stream Message) {}
+}
+
+message Ping {
+  uint32 timestamp = 1;  // 时间戳
+  string os_version = 2;  // 真实操作系统版本
+  string serial = 3; // 手机序列号
+  string model = 4;  // 手机型号
+  int32 actor_version = 5;
+  int32 dex_version = 6;
+  int32 aidl_version = 7;
+  int32 new_stage_version = 8;
+  int32 rom_version = 9;
+  int32 twebview_version = 10;
+  int32 webview_version = 11;
+  int32 chromium_version = 12;
+}
+
+message Pong {
+  uint32 timestamp = 1;  // node返回的时间戳
+  string node_id = 2;  // node id
+  string apk_update_url = 3; // 一次只返回一个可更新的 apk 地址
+  string rom_url = 4; // ROM OTA 地址
+  string app_config = 5;
+}
+
+message AppInfos {
+  string serial = 1;
+  repeated AppInfo app_infos = 2;
+}
+
+message AppInfo {
+  string package_name = 1;
+  uint32 version_code = 2;
+  string version_name = 3;
+  bool ready = 4;
+}
+
+message DeviceStatus {
+  string serial = 1;
+  uint32 cpu = 2; // cpu使用率
+  uint32 mem = 3; // 剩余内存大小，单位M
+  string wifi = 4;  // 当前连接的wifi
+  repeated TopMessage top_apps = 5; // cpu使用排行
+  string rom_version = 6; // rom版本信息，ro.build.new_stage_image
+  string boot_version = 7; // boot版本信息，cat /proc/new_stage_version
+  uint64 time = 8; // 手机当前时间戳
+  uint64 elapsed_time = 9; // 重启之后过了的时间
+  uint32 battery_current = 10; //电池电量， 100为满
+  uint32 battery_temperature = 11; //电池温度，数值为摄氏度*10
+}
+
+message TopMessage {// 只有Nexus 6 6.0版本的不适配
+  uint32 pid = 1;
+  string user = 2;
+  //  string priority = 3;
+  //  string nice = 4;
+  int32 virtual_memory = 3; // 单位M，1G = 1000M
+  int32 resident_memory = 4; // 单位M
+  int32 share_memory = 5; // 单位M
+  string status = 6; //（D=不可中断的睡眠状态，R=运行，S=睡眠，T=跟踪/停止，Z=僵尸进程）
+  float cpu = 7; // %
+  float mem = 8; // %
+  string time = 9;
+  string args = 10;
+}
+
+message Notification {
+  string serial = 1;
+  string level = 2;  // 通知级别，info，warning, error
+  string msg = 3;  // 消息内容
+}
+
+message SmsUploadReq {// 上传到node然后存到数据库
+  string serial = 1; // 手机序列号
+  string uuid = 2;
+  SmsMessage msg = 3;
+}
+
+message SmsUploadResp {// 检查短信是否上报成功，如果没有会再次尝试上报
+  string node_id = 1;  // node id
+  bool success = 2;
+  string reason = 3;
+  string uuid = 4; // timestamp_md5, 这里的时间戳是收到短信的时间，不是sms.db里面的时间
+}

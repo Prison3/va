@@ -1,0 +1,11 @@
+PRETTY_NAME="Android 13"
+NAME="Android"
+VERSION_ID="13"
+VERSION="13"
+VERSION_CODENAME=tiramisu
+ID=android
+ID_LIKE=android
+HOME_URL="https://www.android.com/"
+SUPPORT_URL="https://help.android.com/"
+BUG_REPORT_URL="https://bugs.android.net/"
+PRIVACY_POLICY_URL="https://www.android.com/legal/terms-and-policies/privacy-policy"

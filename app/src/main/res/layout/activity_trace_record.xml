@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <com.android.actor.control.trace.TraceRecordView
+        android:id="@+id/trace_record_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#dddddd" />
+
+    <ImageView
+        android:id="@+id/trace_x5sec_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/x5sec"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/trace_btn_reset"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="reset"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/trace_btn_record"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="record"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/trace_btn_drop"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="drop"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/trace_btn_export"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="export"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/trace_btn_tips"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="tips"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#bbbbbb" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trace_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

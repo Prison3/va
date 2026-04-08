@@ -1,0 +1,43 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+// 全工程统一的 compileSdk / minSdk / targetSdk（各 Android 模块均引用 rootProject.ext）
+// compileSdk 至少 34：:core 清单中 foregroundServiceType="specialUse" 为 API 34 起才有
+// targetSdk：在真机 Android 13+ 上若需系统按新行为（分区存储、通知、广播导出等），建议 >= 33；遇兼容问题可暂回退 28–31
+ext {
+    compileSdkVersion = 34
+    minSdkVersion = 28
+    targetSdkVersion = 33
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

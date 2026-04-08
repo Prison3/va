@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    tools:ignore="HardcodedText,RtlSymmetry">
+
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="5dp" />
+
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_toLeftOf="@+id/item_test_btn"
+            android:id="@+id/item_proxy_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/item_proxy_iptable"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:paddingTop="2dp"
+                android:text="iptables"
+                android:textColor="@color/defaultText"
+                android:textSize="@dimen/pagerBar" />
+
+            <TextView
+                android:id="@+id/item_proxy_socks"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:paddingStart="5dp"
+                android:paddingBottom="2dp"
+                android:text="socks"
+                android:textColor="@color/defaultText"
+                android:textSize="@dimen/pagerBar" />
+
+            <TextView
+                android:id="@+id/item_dns"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:paddingStart="5dp"
+                android:paddingBottom="2dp"
+                android:text="socks"
+                android:textColor="@color/defaultText"
+                android:textSize="@dimen/pagerBar" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/item_test_btn"
+            android:layout_width="wrap_content"
+            android:clickable="false"
+            android:layout_height="25dp"
+            android:textSize="@dimen/pagerBar"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

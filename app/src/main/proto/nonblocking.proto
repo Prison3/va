@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "node/api/nonblocking";
+option java_multiple_files = true;
+option java_package = "com.android.proto.nonblocking";
+option java_outer_classname = "NonblockingProto";
+
+package rocket;
+
+message WEditorReq {
+  string client_id = 1;  // 客户端uuid标识
+  string serial = 2;
+  string cmd = 3;
+  string body = 4;  // json格式字符串
+}
+
+message WEditorResp {
+  string client_id = 1; // 客户端uuid标识，req与resp客户端uuid保持一致
+  bool success = 2;
+  string reason = 3;
+  string body = 4;  // json格式字符串
+  bytes binary = 5;  // 图片和日志都将在压缩后进行传输，可大大减少数据大小
+}

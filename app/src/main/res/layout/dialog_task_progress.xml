@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mackhartley.roundedprogressbar.RoundedProgressBar
+        android:id="@+id/advanced_bar_5"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        app:rpbBackgroundColor="#1C3144"
+        app:rpbBackgroundTextColor="#EF5778"
+        app:rpbCornerRadius="4dp"
+        app:rpbProgressColor="#EF5778"
+        app:rpbProgressTextColor="#1C3144"
+        app:rpbTextPadding="20dp"
+        app:rpbTextSize="24sp" />
+
+</LinearLayout>

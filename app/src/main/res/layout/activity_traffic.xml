@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="query time start:"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/traffic_edit_start"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:clickable="false"
+            android:editable="false" />
+
+        <Button
+            android:id="@+id/traffic_btn_start"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:text="pick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="query time end:"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/traffic_edit_end"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:clickable="false"
+            android:editable="false" />
+
+        <Button
+            android:id="@+id/traffic_btn_end"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:text="pick" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="select an app:"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/traffic_edit_app"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:clickable="false"
+            android:editable="false" />
+
+        <Button
+            android:id="@+id/traffic_btn_app"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:text="pick" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="query network trffic record and xposed action counter:"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/traffic_btn_query"
+            android:layout_width="70dp"
+            android:layout_gravity="end"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:text="query" />
+    </FrameLayout>
+
+    <com.android.actor.device.TrafficView
+        android:id="@+id/traffic_serial_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/xposed_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

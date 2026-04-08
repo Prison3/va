@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/pagerBar"
+        android:orientation="horizontal"
+        tools:ignore="HardcodedText,RtlSymmetry">
+
+        <TextView
+            android:id="@+id/task_text_info"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:lineHeight="15sp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:text="task_id: \ncreated_at: \nfinished_at: \nstatus:\n"
+            android:textColor="@color/defaultText"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/task_btn_stop"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="stop_now"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/task_btn_retry"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="run_again"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/task_recycler_logs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
