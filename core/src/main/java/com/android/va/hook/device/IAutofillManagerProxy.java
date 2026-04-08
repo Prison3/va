@@ -10,7 +10,7 @@ import com.android.va.hook.MethodHook;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.mirror.android.view.BRIAutoFillManagerStub;
 import com.android.va.runtime.VActivityThread;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.BinderInvocationStub;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.proxy.ProxyManifest;

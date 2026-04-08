@@ -24,7 +24,7 @@ import com.android.va.hook.MethodHook;
 import com.android.va.mirror.android.app.BRActivityThread;
 import com.android.va.mirror.android.app.BRContextImpl;
 import com.android.va.mirror.android.content.pm.BRPackageManager;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VPackageManager;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VAppSystemEnv;
@@ -282,7 +282,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
 
             int flags = MethodParameterUtils.toInt(args[1]);
 //            if (ClientSystemEnv.isFakePackage(packageName)) {
-//                packageName = Prison.getHostPkg();
+//                packageName = VHost.getPackageName();
 //            }
             ApplicationInfo applicationInfo = VPackageManager.get().getApplicationInfo(packageName, flags, VActivityThread.getUserId());
             if (applicationInfo != null) {

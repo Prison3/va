@@ -13,7 +13,7 @@ import android.os.IBinder;
 import com.android.va.utils.Logger;
 import androidx.core.app.NotificationCompat;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.utils.BuildCompat;
 
 /**
@@ -23,9 +23,9 @@ import com.android.va.utils.BuildCompat;
 public class DaemonService extends Service {
     public static final String TAG = DaemonService.class.getSimpleName();
     private static final int NOTIFY_ID = VHost.getPackageName().hashCode();
-    private static final String CHANNEL_ID = "prison_daemon_channel";
-    private static final String CHANNEL_NAME = "Prison Daemon Service";
-    private static final String CHANNEL_DESCRIPTION = "Keeps Prison core services running";
+    private static final String CHANNEL_ID = "va_daemon_channel";
+    private static final String CHANNEL_NAME = "VA Daemon Service";
+    private static final String CHANNEL_DESCRIPTION = "Keeps VA core services running";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -129,7 +129,7 @@ public class DaemonService extends Service {
     private Notification createNotification() {
         try {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Prison Core")
+                .setContentTitle("VA Core")
                 .setContentText("Core services are running")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setPriority(NotificationCompat.PRIORITY_LOW)

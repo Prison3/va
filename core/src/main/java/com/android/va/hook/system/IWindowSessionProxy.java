@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import java.lang.reflect.Method;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.BinderInvocationStub;
 import com.android.va.hook.ProxyMethod;
 

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.ClassInvocationStub;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.DexFileRecovery;

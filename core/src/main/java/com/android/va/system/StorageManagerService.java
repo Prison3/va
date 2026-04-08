@@ -11,7 +11,7 @@ import java.io.File;
 
 import com.android.va.mirror.android.os.storage.BRStorageManager;
 import com.android.va.mirror.android.os.storage.BRStorageVolume;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.base.FileProvider;
 import com.android.va.proxy.ProxyManifest;

@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 import com.android.va.mirror.android.location.BRILocationListener;
 import com.android.va.mirror.android.location.BRILocationListenerStub;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VHost;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.PCell;
 import com.android.va.model.PLocation;
@@ -257,7 +257,7 @@ public class LocationManagerService extends ILocationManagerService.Stub impleme
                 }
                 lastLocation = location;
                 l = System.currentTimeMillis();
-                PrisonCore.get().getHandler().post(() -> BRILocationListener.get(iInterface).onLocationChanged(location.convert2SystemLocation()));
+                VHost.getHandler().post(() -> BRILocationListener.get(iInterface).onLocationChanged(location.convert2SystemLocation()));
             }
         });
     }

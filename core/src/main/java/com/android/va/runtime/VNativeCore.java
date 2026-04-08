@@ -16,7 +16,7 @@ import com.android.va.utils.DexFileCompat;
 import com.android.va.system.JarManager;
 
 /**
- * Native core interface for Prison framework.
+ * Native core interface for VA framework.
  * Provides JNI bridge to native library (libprison.so) and handles UID spoofing,
  * path redirection, and DEX loading.
  */

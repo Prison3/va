@@ -13,7 +13,7 @@ import com.android.actor.grpc.GRPCManager;
 import com.android.actor.monitor.Logger;
 import com.android.actor.utils.ReflectUtils;
 import com.android.actor.utils.shell.Libsu;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 public class ActApp extends Application {
     private final static String TAG = ActApp.class.getSimpleName();
@@ -62,7 +62,7 @@ public class ActApp extends Application {
     }
 
     /**
-     * 与 prison {@code FoxRiver#attachBaseContext} 一致：尽早 {@link PrisonCore#startUp}，保证 VA / Hook 在 Application 初始化前就绪。
+     * 与 VA {@code FoxRiver#attachBaseContext} 一致：尽早 {@link VRuntime#startUp}，保证 VA / Hook 在 Application 初始化前就绪。
      */
     @Override
     protected void attachBaseContext(Context base) {
@@ -72,7 +72,7 @@ public class ActApp extends Application {
         }
         app = this;
         if (VHost.getContext() == null) {
-            PrisonCore.get().startUp(this, new ActorPrisonSettings(this), new ActorPrisonAppCallback());
+            VRuntime.get().onAttach(this, new ActorPrisonSettings(this), new ActorPrisonAppCallback());
         }
     }
 
@@ -80,9 +80,9 @@ public class ActApp extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            PrisonCore.get().initializeServices();
+            VRuntime.get().onCreate();
         } catch (Throwable e) {
-            Logger.e(TAG, "PrisonCore.initializeServices failed", e);
+            Logger.e(TAG, "VRuntime.initializeServices failed", e);
         }
 
         if (!getProcessName().equals(getPackageName())) {

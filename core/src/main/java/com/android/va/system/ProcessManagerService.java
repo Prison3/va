@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.core.IActivityThread;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.AppConfig;

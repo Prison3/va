@@ -9,7 +9,7 @@ import android.os.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.mirror.android.app.BRIServiceConnectionO;
 import com.android.va.utils.BuildCompat;
 
@@ -75,8 +75,8 @@ public class ServiceConnectionDelegate extends IServiceConnection.Stub {
 
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            if (PrisonCore.get().getExceptionHandler() != null) {
-                PrisonCore.get().getExceptionHandler().uncaughtException(t, e);
+            if (VRuntime.get().getExceptionHandler() != null) {
+                VRuntime.get().getExceptionHandler().uncaughtException(t, e);
             }
             mDefaultHandler.uncaughtException(t, e);
         }

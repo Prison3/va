@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.android.va.mirror.android.app.job.BRJobInfo;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.model.JobRecord;
 import com.android.va.proxy.ProxyManifest;
 

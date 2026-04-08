@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.core.IEmpty;
 import com.android.va.model.UnbindRecord;
 import com.android.va.model.RunningServiceInfo;

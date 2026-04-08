@@ -172,7 +172,7 @@ public class VLauncherActivity extends Activity {
                 Thread.sleep(100);
                 
                 // Launch the app
-                VActivityManager.get().startActivity(launchIntent, userId);
+                VActivityManager.get().startActivityThroughService(launchIntent, userId);
                 
                 Logger.d(TAG, "App launch initiated successfully");
             } catch (Exception e) {

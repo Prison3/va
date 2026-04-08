@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * Comprehensive DEX file recovery utility to handle "classes.dex: Entry not found" errors.

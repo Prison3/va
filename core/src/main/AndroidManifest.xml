@@ -524,14 +524,14 @@
     <application>
         <provider
             android:name="com.android.va.system.SystemCallProvider"
-            android:authorities="${applicationId}.prison.SystemCallProvider"
+            android:authorities="${applicationId}.va.SystemCallProvider"
             android:exported="false"
             android:process="@string/server_process" />
 
         <!--file provider-->
         <provider
             android:name=".base.FileProvider"
-            android:authorities="${applicationId}.prison.FileProvider"
+            android:authorities="${applicationId}.va.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

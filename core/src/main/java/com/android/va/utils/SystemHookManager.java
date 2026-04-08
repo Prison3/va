@@ -3,7 +3,7 @@ package com.android.va.utils;
 import com.android.va.runtime.VHost;
 
 import com.android.va.runtime.VActivityThread;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

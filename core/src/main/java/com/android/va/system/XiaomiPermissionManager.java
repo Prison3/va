@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 
 import java.lang.reflect.Method;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.utils.BuildCompat;
 import com.android.va.utils.Logger;
 
@@ -263,11 +263,11 @@ public class XiaomiPermissionManager {
         try {
             // Create main notification channel
             android.app.NotificationChannel mainChannel = new android.app.NotificationChannel(
-                "prison_main",
-                "Prison Core",
+                "va_main",
+                "VA Core",
                 NotificationManager.IMPORTANCE_HIGH
             );
-            mainChannel.setDescription("Core Prison functionality notifications");
+            mainChannel.setDescription("Core VA functionality notifications");
             mainChannel.enableLights(true);
             mainChannel.enableVibration(true);
             mainChannel.setShowBadge(true);
@@ -277,8 +277,8 @@ public class XiaomiPermissionManager {
             
             // Create background service channel
             android.app.NotificationChannel backgroundChannel = new android.app.NotificationChannel(
-                "prison_background",
-                "Prison Background",
+                "va_background",
+                "VA Background",
                 NotificationManager.IMPORTANCE_LOW
             );
             backgroundChannel.setDescription("Background service notifications");

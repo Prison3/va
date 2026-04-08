@@ -14,7 +14,7 @@ import com.android.va.system.IAccountManagerService;
 /**
  * Created by Prison on 2022/3/3.
  */
-public class VAccountManager extends Manager<IAccountManagerService> {
+public class VAccountManager extends VManager<IAccountManagerService> {
     private static final VAccountManager sVAccountManager = new VAccountManager();
 
     public static VAccountManager get() {

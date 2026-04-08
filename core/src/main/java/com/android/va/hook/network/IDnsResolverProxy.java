@@ -13,7 +13,7 @@ import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.Logger;
 
 /**
- * DNS Resolver Service Proxy for Prison
+ * DNS Resolver Service Proxy for VA
  * Handles DNS resolution and prevents custom DNS interference
  */
 public class IDnsResolverProxy extends BinderInvocationStub {

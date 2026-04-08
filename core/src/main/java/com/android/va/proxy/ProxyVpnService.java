@@ -12,7 +12,7 @@ import com.android.va.utils.Logger;
 public class ProxyVpnService extends VpnService {
     private static final String TAG = ProxyVpnService.class.getSimpleName();
     private static final int NOTIFICATION_ID = 1001;
-    private static final String CHANNEL_ID = "PrisonVPN";
+    private static final String CHANNEL_ID = "VaVPN";
     
     private ParcelFileDescriptor mVpnInterface = null;
     private boolean mIsEstablished = false;
@@ -73,10 +73,10 @@ public class ProxyVpnService extends VpnService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                 CHANNEL_ID,
-                "Prison VPN Service",
+                "VA VPN Service",
                 NotificationManager.IMPORTANCE_LOW
             );
-            channel.setDescription("VPN service for Prison network access");
+            channel.setDescription("VPN service for VA network access");
             channel.setShowBadge(false);
             
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -127,7 +127,7 @@ public class ProxyVpnService extends VpnService {
             Builder builder = new Builder();
             
             // Set VPN interface name
-            builder.setSession("Prison VPN");
+            builder.setSession("VA VPN");
             
             // Add network addresses - use a private network range
             builder.addAddress("10.0.0.2", 32);
@@ -143,7 +143,7 @@ public class ProxyVpnService extends VpnService {
             builder.addAllowedApplication(getPackageName());
             
             // Set session name for debugging
-            builder.setSession("Prison Internet Access");
+            builder.setSession("VA Internet Access");
             
             Logger.d(TAG, "VPN builder configured, establishing interface...");
             
@@ -215,7 +215,7 @@ public class ProxyVpnService extends VpnService {
                     Logger.e(TAG, "Error in network monitoring: " + e.getMessage());
                 }
             }
-        }, "PrisonNetworkHandler");
+        }, "VaNetworkHandler");
         
         mNetworkThread.start();
         Logger.d(TAG, "Network handling thread started");

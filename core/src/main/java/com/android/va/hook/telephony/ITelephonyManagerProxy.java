@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.mirror.com.android.internal.telephony.BRITelephonyStub;
 import com.android.va.runtime.VActivityThread;

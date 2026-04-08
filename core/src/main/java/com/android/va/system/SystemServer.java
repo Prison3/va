@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VProcess;
 import com.android.va.proxy.ProxyManifest;
 import com.android.va.utils.BuildCompat;
 import com.android.va.utils.BundleCompat;
@@ -119,7 +119,7 @@ public class SystemServer {
         
         // Check if we're in the main process and trying to access services
         // If so, we need to ensure the server process is running first
-        if (PrisonCore.get().isMainProcess() && !isRunning()) {
+        if (VProcess.get().isMainProcess() && !isRunning()) {
             Logger.w(TAG, "Main process trying to access service " + name + " but server process not running, starting it...");
             startUp();
             // Wait a bit for the process to start, but with timeout
@@ -235,7 +235,7 @@ public class SystemServer {
         }
 
         try {
-            if (PrisonCore.get().isMainProcess() && !isRunning()) {
+            if (VProcess.get().isMainProcess() && !isRunning()) {
                 Logger.w(TAG, "Server process not running, starting it...");
                 startUp();
             }
@@ -256,7 +256,7 @@ public class SystemServer {
                 @Override
                 public void run() {
                     Logger.d(TAG, "Executing delayed service start");
-                    if (PrisonCore.get().isMainProcess() && !isRunning()) {
+                    if (VProcess.get().isMainProcess() && !isRunning()) {
                         startUp();
                     }
                 }
@@ -271,7 +271,7 @@ public class SystemServer {
      * Ensure the server process is properly initialized
      */
     public void ensureServerInitialized() {
-        if (PrisonCore.get().isMainProcess() && !isRunning()) {
+        if (VProcess.get().isMainProcess() && !isRunning()) {
             Logger.w(TAG, "Ensuring server process is initialized...");
             startUp();
 
@@ -383,7 +383,7 @@ public class SystemServer {
                 Logger.w(TAG, "Context is null, process state invalid");
                 return false;
             }
-            if (!PrisonCore.get().isMainProcess()) {
+            if (!VProcess.get().isMainProcess()) {
                 Logger.w(TAG, "Not in main process, skipping service start");
                 return false;
             }
@@ -478,7 +478,7 @@ public class SystemServer {
                 @Override
                 public void run() {
                     try {
-                        if (PrisonCore.get().isMainProcess() && !isRunning()) {
+                        if (VProcess.get().isMainProcess() && !isRunning()) {
                             startUp();
                         }
                     } catch (Exception e) {
@@ -605,7 +605,7 @@ public class SystemServer {
                 @Override
                 public void run() {
                     Logger.d(TAG, "Executing delayed server service start");
-                    if (PrisonCore.get().isServerProcess() && PrisonCore.get().getSettings().isEnableDaemonService()) {
+                    if (VProcess.get().isServerProcess() && VHost.get().isEnableDaemonService()) {
                         // Re-trigger the server process service start
                         try {
                             Intent intent = new Intent();
@@ -728,7 +728,7 @@ public class SystemServer {
                 @Override
                 public void run() {
                     try {
-                        if (PrisonCore.get().isServerProcess() && PrisonCore.get().getSettings().isEnableDaemonService()) {
+                        if (VProcess.get().isServerProcess() && VHost.get().isEnableDaemonService()) {
                             Intent intent = new Intent();
                             intent.setClass(mContext, DaemonService.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

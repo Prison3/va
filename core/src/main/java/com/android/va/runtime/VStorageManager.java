@@ -7,7 +7,7 @@ import android.os.storage.StorageVolume;
 import com.android.va.system.ServiceManager;
 import com.android.va.system.IStorageManagerService;
 
-public class VStorageManager extends Manager<IStorageManagerService> {
+public class VStorageManager extends VManager<IStorageManagerService> {
     private static final VStorageManager sVStorageManager = new VStorageManager();
 
     public static VStorageManager get() {

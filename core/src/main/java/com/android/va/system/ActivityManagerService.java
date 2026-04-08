@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.model.AppConfig;
 import com.android.va.model.UnbindRecord;
 import com.android.va.model.PendingResultData;

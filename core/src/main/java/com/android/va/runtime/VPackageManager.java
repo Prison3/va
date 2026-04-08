@@ -17,7 +17,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.system.ServiceManager;
 import com.android.va.system.IPackageManagerService;
 import com.android.va.model.InstallOption;
@@ -25,7 +24,7 @@ import com.android.va.model.InstallResult;
 import com.android.va.model.InstalledPackage;
 import com.android.va.utils.TransactionThrottler;
 
-public class VPackageManager extends Manager<IPackageManagerService> {
+public class VPackageManager extends VManager<IPackageManagerService> {
     private static final VPackageManager sVPackageManager = new VPackageManager();
     private final TransactionThrottler transactionThrottler = new TransactionThrottler();
     private static volatile boolean sIsFindingApkPath = false; // Flag to prevent recursion
@@ -505,17 +504,17 @@ public class VPackageManager extends Manager<IPackageManagerService> {
 
     public InstallResult installPackageAsUser(String file, InstallOption option, int userId) {
         try {
-            // Additional check to prevent cloning Prison app
+            // Additional check to prevent cloning VA host app
             if (file != null && !file.isEmpty()) {
                 try {
-                    // Try to check if this is a Prison app
+                    // Try to check if this is the VA host app
                     PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(file, 0);
                     if (packageInfo != null) {
                         String packageName = packageInfo.packageName;
                         String hostPackageName = VHost.getPackageName();
                         if (packageName.equals(hostPackageName)) {
-                            Logger.w(TAG, "Attempt to install Prison app detected and blocked: " + packageName);
-                            return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
+                            Logger.w(TAG, "Attempt to install VA host app detected and blocked: " + packageName);
+                            return new InstallResult().installError("Cannot clone VA host app from within VA. This would create infinite recursion and is not allowed for security reasons.");
                         }
                     }
                 } catch (Exception e) {
@@ -533,7 +532,7 @@ public class VPackageManager extends Manager<IPackageManagerService> {
     public InstallResult installPackageAsUser(String packageName, int userId) {
         try {
             if (packageName.equals(VHost.getPackageName())) {
-                return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
+                return new InstallResult().installError("Cannot clone VA host app from within VA. This would create infinite recursion and is not allowed for security reasons.");
             }
             
             PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageInfo(packageName, 0);
@@ -545,13 +544,13 @@ public class VPackageManager extends Manager<IPackageManagerService> {
     }
 
     public InstallResult installPackageAsUser(File apk, int userId) {
-        // Check if this is a Prison-related APK
+        // Check if this is a VA-host-related APK
         try {
             PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(apk.getAbsolutePath(), 0);
             if (packageInfo != null) {
                 String packageName = packageInfo.packageName;
                 if (packageName.equals(VHost.getPackageName())) {
-                    return new InstallResult().installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
+                    return new InstallResult().installError("Cannot clone VA host app from within VA. This would create infinite recursion and is not allowed for security reasons.");
                 }
             }
         } catch (Exception e) {

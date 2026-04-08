@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.model.VPackageSettings;
 import com.android.va.model.PendingResultData;
 import com.android.va.proxy.ProxyBroadcastReceiver;

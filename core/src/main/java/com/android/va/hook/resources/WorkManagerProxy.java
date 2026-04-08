@@ -7,7 +7,7 @@ import android.content.Context;
 import java.lang.reflect.Method;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.ClassInvocationStub;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.Logger;

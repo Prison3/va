@@ -30,7 +30,7 @@ import java.util.UUID;
 import com.android.va.mirror.android.app.BRActivityManagerNative;
 import com.android.va.mirror.android.app.BRIActivityManager;
 import com.android.va.mirror.com.android.internal.BRRstyleable;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.proxy.ProxyActivity;
 import com.android.va.proxy.ProxyManifest;
 import com.android.va.proxy.ProxyActivityRecord;

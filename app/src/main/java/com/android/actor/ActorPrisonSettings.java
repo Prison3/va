@@ -7,7 +7,7 @@ import com.android.va.base.Settings;
 import java.io.File;
 
 /**
- * 与 prison {@code FoxRiver#createSettings} 对齐的宿主配置。
+ * 与 VA {@code FoxRiver#createSettings} 对齐的宿主配置。
  * 须在 {@link android.app.Application#attachBaseContext} 阶段可用，因此持有 {@link Context}，不依赖 {@link ActApp#getInstance()}。
  */
 public final class ActorPrisonSettings extends Settings {
@@ -16,11 +16,6 @@ public final class ActorPrisonSettings extends Settings {
 
     public ActorPrisonSettings(Context host) {
         mHostContext = host.getApplicationContext();
-    }
-
-    @Override
-    public String getHostPackageName() {
-        return mHostContext.getPackageName();
     }
 
     @Override

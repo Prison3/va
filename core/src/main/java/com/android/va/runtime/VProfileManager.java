@@ -11,7 +11,7 @@ import com.android.va.system.IProfileManagerService;
 import com.android.va.model.Profile;
 import com.android.va.utils.Logger;
 
-public class VProfileManager extends Manager<IProfileManagerService> {
+public class VProfileManager extends VManager<IProfileManagerService> {
     private static final String TAG = VProfileManager.class.getSimpleName();
     private static final long RETRY_DELAY_MS = 100L;
     private static final VProfileManager sVProfileManager = new VProfileManager();

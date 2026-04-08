@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.actor.ActApp;
 import com.android.actor.R;
 import com.android.actor.monitor.Logger;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VActivityManager;
 import com.android.va.runtime.VPackageManager;
 import com.android.va.runtime.VProfileManager;
 import com.android.va.model.Profile;
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 显示 {@link VPackageManager} 虚拟用户空间内已安装应用（与 prison Apps 列表同源）。
+ * 显示 {@link VPackageManager} 虚拟用户空间内已安装应用（与 VA Apps 列表同源）。
  */
 public class PagerApps extends BasePager {
 
@@ -102,8 +102,8 @@ public class PagerApps extends BasePager {
                 Logger.i(TAG, L + " refresh start");
                 Context ctx = VHost.getContext();
                 if (ctx == null) {
-                    Logger.e(TAG, L + " VHost.getContext()==null → 未在 attachBaseContext 调用 PrisonCore.startUp？");
-                    ActApp.post(() -> Toast.makeText(mContext, "Prison 未初始化", Toast.LENGTH_SHORT).show());
+                    Logger.e(TAG, L + " VHost.getContext()==null → 未在 attachBaseContext 调用 VRuntime.startUp？");
+                    ActApp.post(() -> Toast.makeText(mContext, "VA 未初始化", Toast.LENGTH_SHORT).show());
                     return;
                 }
                 Logger.i(TAG, L + " context ok, package=" + ctx.getPackageName());
@@ -224,7 +224,7 @@ public class PagerApps extends BasePager {
 
             holder.open.setOnClickListener(v -> {
                 Logger.i(TAG, "launch " + item.packageName + " user=" + item.userId);
-                boolean ok = PrisonCore.get().launchApk(item.packageName, item.userId);
+                boolean ok = VActivityManager.get().launchApk(item.packageName, item.userId);
                 if (!ok) {
                     Toast.makeText(mContext, "无法启动: " + item.packageName, Toast.LENGTH_SHORT).show();
                 }

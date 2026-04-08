@@ -2,7 +2,7 @@ package com.android.va.utils;
 
 import com.android.va.runtime.VHost;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * Centralized utility class for fixing AttributionSource UID issues

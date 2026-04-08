@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VAppSystemEnv;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.InstallOption;
@@ -63,7 +63,7 @@ public class ServiceManager {
     }
 
     /**
-     * Start up all system services and initialize the Prison system.
+     * Start up all system services and initialize the VA system.
      * This method should be called once during system initialization.
      */
     public void startup() {

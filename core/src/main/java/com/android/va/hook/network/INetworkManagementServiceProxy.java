@@ -11,7 +11,7 @@ import com.android.va.hook.UidMethodProxy;
 import com.android.va.utils.MethodParameterUtils;
 
 /**
- * Enhanced Network Management Service Proxy for Prison
+ * Enhanced Network Management Service Proxy for VA
  * Created by Prison on 2022/3/5.
  */
 public class INetworkManagementServiceProxy extends BinderInvocationStub {

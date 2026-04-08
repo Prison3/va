@@ -10,7 +10,7 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.base.AppServiceDispatcher;
 import com.android.va.utils.BuildCompat;
 
@@ -60,7 +60,7 @@ public class ProxyService extends Service {
     }
 
     private void showNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".prison_proxy")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), getPackageName() + ".va_proxy")
                 .setPriority(NotificationCompat.PRIORITY_MAX);
         if (BuildCompat.isOreo()) {
             startForeground(VHost.getPackageName().hashCode(), builder.build());

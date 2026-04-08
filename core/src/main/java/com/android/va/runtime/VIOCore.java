@@ -27,7 +27,7 @@ public class VIOCore {
     private static final String TAG = VIOCore.class.getSimpleName();
     
     // Path constants
-    private static final String PRISON_PATH_MARKER = "/prison/";
+    private static final String VA_PATH_MARKER = "/va/";
     private static final String PROC_SELF = "/proc/self/";
     private static final String PROC_CMDLINE = "cmdline";
     private static final String PROFILES_DIR = "profiles";
@@ -114,8 +114,8 @@ public class VIOCore {
             return path;
         }
         
-        // Skip paths already containing prison marker
-        if (path.contains(PRISON_PATH_MARKER)) {
+        // Skip paths already containing VA marker
+        if (path.contains(VA_PATH_MARKER)) {
             return path;
         }
         
@@ -243,7 +243,7 @@ public class VIOCore {
                                             ApplicationInfo packageInfo, int dataUserId) {
         VEnvironment.ensureSandboxDataDirectories(packageName, dataUserId);
 
-        // ApplicationInfo.dataDir is logical (/data/user/.../pkg); map to prison physical root.
+        // ApplicationInfo.dataDir is logical (/data/user/.../pkg); map to VA physical root.
         // Trailing '/' marks folder rules in native replace_items so subpaths (databases/, no_backup/) match.
         final String physicalDataDir = VEnvironment.getDataDir(packageName, dataUserId).getAbsolutePath();
         final String physicalDeDir = VEnvironment.getDeDataDir(packageName, dataUserId).getAbsolutePath();

@@ -24,7 +24,7 @@ public class StackTraceFilter {
         return className.toLowerCase().contains("xposed") ||
                className.toLowerCase().contains("epic") ||
                className.toLowerCase().contains("virtual") ||
-               className.toLowerCase().contains("prison") ||
+               className.contains("com.android.va") ||
                className.toLowerCase().contains("hook");
     }
 }

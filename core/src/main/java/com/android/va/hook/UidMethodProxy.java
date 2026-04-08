@@ -4,7 +4,7 @@ import com.android.va.runtime.VHost;
 
 import java.lang.reflect.Method;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 
 /**

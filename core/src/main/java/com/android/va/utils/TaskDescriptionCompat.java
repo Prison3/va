@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 
 import java.util.Locale;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 
 public class TaskDescriptionCompat {
@@ -26,7 +26,7 @@ public class TaskDescriptionCompat {
         // if (drawable == null)
         //     return td;
 
-        // ActivityManager am = (ActivityManager) Prison.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        // ActivityManager am = (ActivityManager) VHost.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         // int iconSize = am.getLauncherLargeIconSize();
         // icon = DrawableUtils.drawableToBitmap(drawable, iconSize, iconSize);
         td = new ActivityManager.TaskDescription(label, null, td.getPrimaryColor());

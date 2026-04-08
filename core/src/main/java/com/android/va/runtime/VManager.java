@@ -11,10 +11,10 @@ import com.android.va.system.SystemServer;
 import com.android.va.utils.Reflector;
 
 /**
- * Created by Prison on 2022/3/23.
+ * Base class for VA service manager singletons backed by {@link SystemServer} binders.
  */
-public abstract class Manager<Service extends IInterface> {
-    public static final String TAG = Manager.class.getSimpleName();
+public abstract class VManager<Service extends IInterface> {
+    public static final String TAG = VManager.class.getSimpleName();
 
     private Service mService;
     private final AtomicBoolean mServiceCreationFailed = new AtomicBoolean(false);

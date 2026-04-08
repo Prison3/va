@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * Comprehensive crash prevention utility for DEX and ClassLoader related crashes.

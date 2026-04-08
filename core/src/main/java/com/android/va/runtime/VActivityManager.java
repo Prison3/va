@@ -4,12 +4,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ProviderInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.DeadObjectException;
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.base.AppCallback;
 import com.android.va.system.ServiceManager;
 import com.android.va.system.IActivityManagerService;
 import com.android.va.model.AppConfig;
@@ -18,8 +19,9 @@ import com.android.va.model.PendingResultData;
 import com.android.va.model.RunningAppProcessInfo;
 import com.android.va.model.RunningServiceInfo;
 import com.android.va.utils.Logger;
+import com.android.va.utils.StoragePermissionHelper;
 
-public class VActivityManager extends Manager<IActivityManagerService> {
+public class VActivityManager extends VManager<IActivityManagerService> {
     private static final String TAG = VActivityManager.class.getSimpleName();
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_DELAY_MS = 100;
@@ -167,11 +169,49 @@ public class VActivityManager extends Manager<IActivityManagerService> {
         }
     }
 
+    /**
+     * Starts an activity for the given user, using {@link VLauncherActivity} when enabled in {@link VHost},
+     * otherwise starting through the virtual activity manager service directly.
+     */
     public void startActivity(Intent intent, int userId) {
+        if (VHost.get().isEnableLauncherActivity()) {
+            launch(intent, userId);
+        } else {
+            startActivityThroughService(intent, userId);
+        }
+    }
+
+    /** Direct path to AMS (no launcher shell); use when already inside {@link VLauncherActivity} or similar. */
+    public void startActivityThroughService(Intent intent, int userId) {
         executeWithRetryVoid(
             service -> service.startActivity(intent, userId),
             "startActivity"
         );
+    }
+
+    /**
+     * Resolves the launcher intent for {@code packageName} and starts it for {@code userId},
+     * after storage checks and {@link AppCallback} hooks.
+     */
+    public boolean launchApk(String packageName, int userId) {
+        AppCallback cb = VHost.get();
+        cb.beforeMainLaunchApk(packageName, userId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!StoragePermissionHelper.hasAllFilesAccess()) {
+                Logger.w(TAG, "All files access not granted for launching: " + packageName);
+                if (cb.onStoragePermissionNeeded(packageName, userId)) {
+                    Logger.d(TAG, "Launch cancelled - host app handling permission request");
+                    return false;
+                }
+                Logger.w(TAG, "Launching without all files access - some file operations may fail");
+            }
+        }
+        Intent launchIntentForPackage = VPackageManager.get().getLaunchIntentForPackage(packageName, userId);
+        if (launchIntentForPackage == null) {
+            return false;
+        }
+        startActivity(launchIntentForPackage, userId);
+        return true;
     }
 
     public int startActivityAms(int userId, Intent intent, String resolvedType, IBinder resultTo, 

@@ -24,7 +24,7 @@ import com.android.va.mirror.android.app.BRNotificationO;
 import com.android.va.mirror.android.app.NotificationChannelContext;
 import com.android.va.mirror.android.app.NotificationChannelGroupContext;
 import com.android.va.mirror.android.app.NotificationOContext;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.utils.BuildCompat;
 
 /**

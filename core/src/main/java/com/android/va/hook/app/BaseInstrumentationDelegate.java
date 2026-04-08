@@ -20,7 +20,7 @@ import android.os.UserHandle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VHost;
 import com.android.va.utils.Reflector;
 
 public class BaseInstrumentationDelegate extends Instrumentation {
@@ -312,19 +312,19 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle) {
         mBaseInstrumentation.callActivityOnCreate(activity, icicle);
-        PrisonCore.get().getAppCallback().onActivityCreated(activity, icicle);
+        VHost.get().onActivityCreated(activity, icicle);
      }
 
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle, PersistableBundle persistentState) {
         mBaseInstrumentation.callActivityOnCreate(activity, icicle, persistentState);
-        PrisonCore.get().getAppCallback().onActivityCreated(activity, icicle);
+        VHost.get().onActivityCreated(activity, icicle);
     }
 
     @Override
     public void callActivityOnDestroy(Activity activity) {
         mBaseInstrumentation.callActivityOnDestroy(activity);
-        PrisonCore.get().getAppCallback().onActivityDestroyed(activity);
+        VHost.get().onActivityDestroyed(activity);
     }
 
     @Override
@@ -355,7 +355,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnStart(Activity activity) {
         mBaseInstrumentation.callActivityOnStart(activity);
-        PrisonCore.get().getAppCallback().onActivityStarted(activity);
+        VHost.get().onActivityStarted(activity);
     }
 
     @Override
@@ -366,13 +366,13 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnResume(Activity activity) {
         mBaseInstrumentation.callActivityOnResume(activity);
-        PrisonCore.get().getAppCallback().onActivityResumed(activity);
+        VHost.get().onActivityResumed(activity);
     }
 
     @Override
     public void callActivityOnStop(Activity activity) {
         mBaseInstrumentation.callActivityOnStop(activity);
-        PrisonCore.get().getAppCallback().onActivityStopped(activity);
+        VHost.get().onActivityStopped(activity);
     }
 
     @Override
@@ -383,13 +383,13 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnSaveInstanceState(Activity activity, Bundle outState, PersistableBundle outPersistentState) {
         mBaseInstrumentation.callActivityOnSaveInstanceState(activity, outState, outPersistentState);
-        PrisonCore.get().getAppCallback().onActivitySaveInstanceState(activity, outState);
+        VHost.get().onActivitySaveInstanceState(activity, outState);
     }
 
     @Override
     public void callActivityOnPause(Activity activity) {
         mBaseInstrumentation.callActivityOnPause(activity);
-        PrisonCore.get().getAppCallback().onActivityPaused(activity);
+        VHost.get().onActivityPaused(activity);
     }
 
     @Override

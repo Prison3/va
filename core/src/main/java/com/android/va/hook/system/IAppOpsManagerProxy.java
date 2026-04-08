@@ -7,7 +7,7 @@ import android.content.Context;
 import android.os.IBinder;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.mirror.android.app.BRAppOpsManager;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.mirror.com.android.internal.app.BRIAppOpsServiceStub;

@@ -10,6 +10,7 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.android.va.runtime.VHost;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.model.ServiceRecord;
 import com.android.va.runtime.VActivityManager;
@@ -30,7 +31,7 @@ public class AppServiceDispatcher {
         return sServiceDispatcher;
     }
 
-    private final Handler mHandler = PrisonCore.get().getHandler();
+    private final Handler mHandler = VHost.getHandler();
 
     public IBinder onBind(Intent proxyIntent) {
         ProxyServiceRecord serviceRecord = ProxyServiceRecord.create(proxyIntent);

@@ -11,7 +11,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.ClassInvocationStub;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.runtime.VActivityThread;
@@ -114,8 +114,8 @@ public class WebViewProxy extends ClassInvocationStub {
                     }
                     // Set user agent
                     String userAgent = settings.getUserAgentString();
-                    if (userAgent != null && !userAgent.contains("Prison")) {
-                        settings.setUserAgentString(userAgent + " Prison");
+                    if (userAgent != null && !userAgent.contains("Va")) {
+                        settings.setUserAgentString(userAgent + " Va");
                     }
                     Logger.d(TAG, "WebView: Configured successfully");
                 }
@@ -213,7 +213,7 @@ public class WebViewProxy extends ClassInvocationStub {
             Logger.d(TAG, "WebView: getInstance called for WebViewDatabase");
             
             try {
-                // Get the context from Prison
+                // Get the context from VA runtime
                 Context context = VHost.getContext();
                 if (context != null) {
                     // Create a unique database instance

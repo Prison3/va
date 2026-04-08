@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 
 /**
@@ -237,7 +237,7 @@ public class SocialMediaAppCrashPrevention {
             if (recoveredContext != null) {
                 Logger.d(TAG, "Successfully recovered context");
                 // Set the recovered context
-                // This would require access to Prison's context setter
+                // This would require access to VA's context setter
             }
             
         } catch (Exception e) {

@@ -11,7 +11,7 @@ import com.android.va.hook.MethodHook;
 import com.android.va.mirror.android.content.pm.BRUserInfo;
 import com.android.va.mirror.android.os.BRIUserManagerStub;
 import com.android.va.mirror.android.os.BRServiceManager;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.hook.BinderInvocationStub;
 import com.android.va.hook.ProxyMethod;
@@ -49,8 +49,8 @@ public class IUserManagerProxy extends BinderInvocationStub {
     public static class GetProfileParent extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Object prison = BRUserInfo.get()._new(VActivityThread.getUserId(), "Prison", BRUserInfo.get().FLAG_PRIMARY());
-            return prison;
+            Object vaUser = BRUserInfo.get()._new(VActivityThread.getUserId(), "Va", BRUserInfo.get().FLAG_PRIMARY());
+            return vaUser;
         }
     }
 

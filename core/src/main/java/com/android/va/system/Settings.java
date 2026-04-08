@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.VPackageSettings;
 import com.android.va.model.InstallOption;

@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 
 public class ProviderCall {

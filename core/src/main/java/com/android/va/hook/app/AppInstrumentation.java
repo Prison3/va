@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 
 import com.android.va.mirror.android.app.BRActivity;
 import com.android.va.mirror.android.app.BRActivityThread;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.hook.IInjector;
 import com.android.va.utils.HackAppUtils;
 import com.android.va.utils.ActivityCompat;

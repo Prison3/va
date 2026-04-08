@@ -14,7 +14,7 @@ import com.android.va.system.INotificationManagerService;
 /**
  * Created by Prison on 2022/3/18.
  */
-public class VNotificationManager extends Manager<INotificationManagerService> {
+public class VNotificationManager extends VManager<INotificationManagerService> {
     private static final VNotificationManager sVNotificationManager = new VNotificationManager();
 
     public static VNotificationManager get() {

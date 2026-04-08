@@ -3,12 +3,11 @@ package com.android.va.runtime;
 import java.io.File;
 import java.util.Locale;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.utils.FileUtils;
 
 public class VEnvironment {
-    private static final File sVirtualRoot = new File(VHost.getContext().getCacheDir().getParent(), "prison");
-    private static final File sExternalVirtualRoot = VHost.getContext().getExternalFilesDir("prison");
+    private static final File sVirtualRoot = new File(VHost.getContext().getCacheDir().getParent(), "va");
+    private static final File sExternalVirtualRoot = VHost.getContext().getExternalFilesDir("va");
 
     public static File JUNIT_JAR = new File(getCacheDir(), "junit.apk");
     public static File EMPTY_JAR = new File(getCacheDir(), "empty.apk");
@@ -117,7 +116,7 @@ public class VEnvironment {
     }
 
     /**
-     * Creates typical Android app-data subtrees under physical prison storage so native
+     * Creates typical Android app-data subtrees under physical VA storage so native
      * redirection from logical {@code /data/user/.../pkg/...} resolves to existing paths
      * (e.g. {@code no_backup/} for Room/SQLite on API 21+).
      */

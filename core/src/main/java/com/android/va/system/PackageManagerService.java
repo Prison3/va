@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VGmsManager;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.VPackageSettings;
@@ -670,18 +670,18 @@ public class PackageManagerService extends IPackageManagerService.Stub implement
                 return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
             }
 
-            // Prevent cloning Prison app from within Prison
+            // Prevent cloning VA host app from within VA
             String packageName = packageArchiveInfo.packageName;
             String hostPackageName = VHost.getPackageName();
             if (packageName.equals(hostPackageName)) {
-                return result.installError("Cannot clone Prison app from within Prison. This would create infinite recursion and is not allowed for security reasons.");
+                return result.installError("Cannot clone VA host app from within VA. This would create infinite recursion and is not allowed for security reasons.");
             }
             
-            // Also check for common Prison-related package names to prevent cloning
-            if (packageName.contains("prison") || packageName.contains("niunaijun") || 
+            // Also check for common VA / virtual-space-related package names to prevent cloning
+            if (packageName.contains("com.android.va") || packageName.contains("niunaijun") || 
                 packageName.contains("vspace") || packageName.contains("virtual")) {
                 // Allow this but log a warning
-                Logger.w(TAG, "Installing potentially Prison-related app: " + packageName + ". Proceed with caution.");
+                Logger.w(TAG, "Installing potentially VA-related app: " + packageName + ". Proceed with caution.");
             }
 
             boolean support = AbiUtils.isSupport(apkFile);

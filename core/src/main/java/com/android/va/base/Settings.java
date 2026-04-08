@@ -4,8 +4,6 @@ import java.io.File;
 
 public abstract class Settings {
 
-    public abstract String getHostPackageName();
-
     public boolean isEnableDaemonService() {
         return true;
     }

@@ -4,7 +4,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
 public class AppConfig implements Parcelable {
-    public static final String KEY = "Prison_client_config";
+    public static final String KEY = "Va_client_config";
 
     public String packageName;
     public String processName;

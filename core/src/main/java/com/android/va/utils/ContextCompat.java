@@ -11,7 +11,7 @@ import com.android.va.mirror.android.content.AttributionSourceStateContext;
 import com.android.va.mirror.android.content.BRAttributionSource;
 import com.android.va.mirror.android.content.BRAttributionSourceState;
 import com.android.va.mirror.android.content.BRContentResolver;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 public class ContextCompat {
     public static final String TAG = ContextCompat.class.getSimpleName();

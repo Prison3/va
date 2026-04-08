@@ -63,7 +63,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
                 JobInfo jobInfo = (JobInfo) args[0];
                 Logger.d(TAG, "Schedule: Processing JobInfo for package: " + jobInfo.getService().getPackageName());
                 
-                // Try to schedule through Prison job manager first
+                // Try to schedule through VA job manager first
                 try {
                     JobInfo proxyJobInfo = VJobManager.get().schedule(jobInfo);
                     if (proxyJobInfo != null) {
@@ -72,7 +72,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
                         return method.invoke(who, args);
                     }
                 } catch (Exception e) {
-                    Logger.w(TAG, "Schedule: Prison job manager failed, trying system fallback", e);
+                    Logger.w(TAG, "Schedule: VA job manager failed, trying system fallback", e);
                 }
                 
                 // Fallback: Try to schedule directly with UID spoofing
@@ -247,7 +247,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
                 JobInfo jobInfo = (JobInfo) args[0];
                 Logger.d(TAG, "Enqueue: Processing JobInfo for package: " + jobInfo.getService().getPackageName());
                 
-                // Try to enqueue through Prison job manager first
+                // Try to enqueue through VA job manager first
                 try {
                     JobInfo proxyJobInfo = VJobManager.get().schedule(jobInfo);
                     if (proxyJobInfo != null) {
@@ -256,7 +256,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
                         return method.invoke(who, args);
                     }
                 } catch (Exception e) {
-                    Logger.w(TAG, "Enqueue: Prison job manager failed, trying system fallback", e);
+                    Logger.w(TAG, "Enqueue: VA job manager failed, trying system fallback", e);
                 }
                 
                 // Fallback: Try to enqueue directly with UID spoofing

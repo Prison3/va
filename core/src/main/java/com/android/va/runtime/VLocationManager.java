@@ -14,7 +14,7 @@ import com.android.va.model.PLocation;
 /**
  * Created by Prisoning on 3/8/22.
  **/
-public class VLocationManager extends Manager<ILocationManagerService> {
+public class VLocationManager extends VManager<ILocationManagerService> {
     private static final VLocationManager sVLocationManager = new VLocationManager();
 
     public static final int CLOSE_MODE = 0;

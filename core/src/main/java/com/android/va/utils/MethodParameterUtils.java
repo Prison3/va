@@ -5,7 +5,7 @@ import com.android.va.runtime.VHost;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VPackageManager;
 

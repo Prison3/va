@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.model.InstallResult;
 
 public class VGmsManager {
@@ -47,7 +46,6 @@ public class VGmsManager {
     }
 
     private static InstallResult installPackages(Set<String> list, int userId) {
-        PrisonCore prisonCore = PrisonCore.get();
         for (String packageName : list) {
             if (VPackageManager.get().isInstalled(packageName, userId)) {
                 continue;

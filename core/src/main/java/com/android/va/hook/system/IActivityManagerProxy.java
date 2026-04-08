@@ -27,7 +27,7 @@ import com.android.va.mirror.android.app.BRLoadedApkServiceDispatcher;
 import com.android.va.mirror.android.app.BRLoadedApkServiceDispatcherInnerConnection;
 import com.android.va.mirror.android.content.pm.BRUserInfo;
 import com.android.va.mirror.android.util.BRSingleton;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VProcess;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VAppSystemEnv;
 import com.android.va.model.RunningAppProcessInfo;
@@ -342,7 +342,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected boolean isEnable() {
-            return PrisonCore.get().isPrisonProcess() || PrisonCore.get().isServerProcess();
+            return VProcess.get().isVaProcess() || VProcess.get().isServerProcess();
         }
     }
 
@@ -356,7 +356,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected boolean isEnable() {
-            return PrisonCore.get().isPrisonProcess() || PrisonCore.get().isServerProcess();
+            return VProcess.get().isVaProcess() || VProcess.get().isServerProcess();
         }
     }
 
@@ -372,7 +372,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected boolean isEnable() {
-            return PrisonCore.get().isPrisonProcess() || PrisonCore.get().isServerProcess();
+            return VProcess.get().isVaProcess() || VProcess.get().isServerProcess();
         }
     }
 
@@ -694,8 +694,8 @@ public class IActivityManagerProxy extends ClassInvocationStub {
     public static class getCurrentUser extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            Object prison = BRUserInfo.get()._new(VActivityThread.getUserId(), "Prison", BRUserInfo.get().FLAG_PRIMARY());
-            return prison;
+            Object vaUser = BRUserInfo.get()._new(VActivityThread.getUserId(), "Va", BRUserInfo.get().FLAG_PRIMARY());
+            return vaUser;
         }
     }
 

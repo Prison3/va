@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Process;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * UID Spoofing Helper to handle UID validation issues in virtual environments

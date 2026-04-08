@@ -7,7 +7,7 @@ import com.android.va.system.ServiceManager;
 import com.android.va.system.IJobManagerService;
 import com.android.va.model.JobRecord;
 
-public class VJobManager extends Manager<IJobManagerService> {
+public class VJobManager extends VManager<IJobManagerService> {
     private static final VJobManager sVJobManager = new VJobManager();
 
     public static VJobManager get() {

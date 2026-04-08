@@ -2,7 +2,7 @@ package com.android.va.hook;
 
 import java.lang.reflect.Method;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VProcess;
 
 /**
  * Abstract base class for method hooks.
@@ -59,11 +59,11 @@ public abstract class MethodHook {
 
     /**
      * Check if this hook is enabled.
-     * By default, hooks are only enabled in Prison processes.
+     * By default, hooks are only enabled in VA (virtual app) processes.
      * 
      * @return true if the hook is enabled, false otherwise
      */
     protected boolean isEnable() {
-        return PrisonCore.get().isPrisonProcess();
+        return VProcess.get().isVaProcess();
     }
 }

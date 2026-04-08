@@ -29,7 +29,7 @@ import com.android.va.mirror.android.content.pm.BRPackageParserSigningDetails;
 import com.android.va.mirror.android.content.pm.BRSigningInfo;
 import com.android.va.mirror.android.content.res.BRAssetManager;
 import com.android.va.model.VPackageSettings;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VAppSystemEnv;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.model.InstallOption;

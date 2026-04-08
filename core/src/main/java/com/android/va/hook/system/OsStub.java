@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 import com.android.va.hook.MethodHook;
 import com.android.va.mirror.libcore.io.BRLibcore;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VIOCore;
 import com.android.va.hook.ClassInvocationStub;

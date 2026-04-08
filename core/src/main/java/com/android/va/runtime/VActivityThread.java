@@ -59,7 +59,6 @@ import com.android.va.mirror.android.security.net.config.BRNetworkSecurityConfig
 import com.android.va.mirror.com.android.internal.content.BRReferrerIntent;
 import com.android.va.mirror.dalvik.system.BRVMRuntime;
 
-import com.android.va.base.PrisonCore;
 import com.android.va.core.IActivityThread;
 import com.android.va.system.VUserHandle;
 import com.android.va.model.AppConfig;
@@ -83,7 +82,7 @@ public class VActivityThread extends IActivityThread.Stub {
     private Application mInitialApplication;
     private AppConfig mAppConfig;
     private final List<ProviderInfo> mProviders = new ArrayList<>();
-    private final Handler mH = PrisonCore.get().getHandler();
+    private final Handler mH = VHost.getHandler();
     private static final Object mConfigLock = new Object();
 
 
@@ -294,7 +293,7 @@ public class VActivityThread extends IActivityThread.Stub {
     public void bindApplication(final String packageName, final String processName) {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final ConditionVariable conditionVariable = new ConditionVariable();
-            PrisonCore.get().getHandler().post(() -> {
+            VHost.getHandler().post(() -> {
                 // Create a minimal data object for the new handleBindApplication method
                 Object bindData = createBindApplicationData(packageName, processName);
                 handleBindApplication(packageName, processName);
@@ -345,6 +344,7 @@ public class VActivityThread extends IActivityThread.Stub {
 
         PackageInfo packageInfo = VPackageManager.get().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, VActivityThread.getUserId());
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+        VProcess.get().setupRuntime(processName, applicationInfo);
         if (packageInfo.providers == null) {
             packageInfo.providers = new ProviderInfo[]{};
         }
@@ -371,8 +371,6 @@ public class VActivityThread extends IActivityThread.Stub {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             WebView.setDataDirectorySuffix(getUserId() + ":" + packageName + ":" + processName);
         }
-
-        VRuntime.setupRuntime(processName, applicationInfo);
 
         BRVMRuntime.get(BRVMRuntime.get().getRuntime()).setTargetSdkVersion(applicationInfo.targetSdkVersion);
         if (BuildCompat.isS()) {
@@ -703,7 +701,7 @@ public class VActivityThread extends IActivityThread.Stub {
         try {
             Context baseContext = VHost.getContext();
             if (baseContext == null) {
-                Logger.e(TAG, "Prison.getContext() is null, cannot create fallback context");
+                Logger.e(TAG, "VHost.getContext() is null, cannot create fallback context");
                 return null;
             }
             
@@ -1158,16 +1156,16 @@ public class VActivityThread extends IActivityThread.Stub {
     }
 
     private void onBeforeCreateApplication(String packageName, String processName, Context context) {
-        PrisonCore.get().getAppCallback().onBeforeCreateApplication(packageName, processName, context, VActivityThread.getUserId());
+        VHost.get().onBeforeCreateApplication(packageName, processName, context, VActivityThread.getUserId());
 
     }
 
     private void onBeforeApplicationOnCreate(String packageName, String processName, Application application) {
-        PrisonCore.get().getAppCallback().beforeApplicationOnCreate(packageName, processName, application, VActivityThread.getUserId());
+        VHost.get().beforeApplicationOnCreate(packageName, processName, application, VActivityThread.getUserId());
     }
 
     private void onAfterApplicationOnCreate(String packageName, String processName, Application application) {
-        PrisonCore.get().getAppCallback().afterApplicationOnCreate(packageName, processName, application, VActivityThread.getUserId());
+        VHost.get().afterApplicationOnCreate(packageName, processName, application, VActivityThread.getUserId());
     }
 
     /**

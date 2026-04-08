@@ -10,12 +10,12 @@ import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.utils.JarUtils;
 
 /**
- * Improved JAR file manager for Prison system
+ * Improved JAR file manager for VA system
  * Handles JAR file operations with better error handling, caching, and performance
  */
 public class JarManager {
@@ -132,7 +132,7 @@ public class JarManager {
     private void initializeJarEnvironment() {
         Context context = VHost.getContext();
         if (context == null) {
-            throw new IllegalStateException("Prison context is null");
+            throw new IllegalStateException("VA context is null");
         }
         
         Logger.d(TAG, "Starting JAR environment initialization");

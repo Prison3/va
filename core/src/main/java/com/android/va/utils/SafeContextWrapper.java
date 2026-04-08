@@ -7,7 +7,7 @@ import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * A safe ContextWrapper that prevents NullPointerException when the base context is null

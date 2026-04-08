@@ -58,7 +58,7 @@ import java.util.Objects;
 
 import com.android.va.mirror.com.android.internal.BRRstyleable;
 import com.android.va.mirror.com.android.internal.RstyleableStatic;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VEnvironment;
 import com.android.va.utils.ArrayUtils;
 import com.android.va.utils.CloseUtils;

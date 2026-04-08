@@ -11,7 +11,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 /**
  * Created by Prison on 2022/3/18.

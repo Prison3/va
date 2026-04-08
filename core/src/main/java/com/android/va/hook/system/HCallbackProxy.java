@@ -29,7 +29,7 @@ import com.android.va.mirror.android.app.servertransaction.BRClientTransaction;
 import com.android.va.mirror.android.app.servertransaction.BRLaunchActivityItem;
 import com.android.va.mirror.android.app.servertransaction.LaunchActivityItemContext;
 import com.android.va.mirror.android.os.BRHandler;
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityManager;
 import com.android.va.runtime.VPackageManager;
 import com.android.va.runtime.VActivityThread;

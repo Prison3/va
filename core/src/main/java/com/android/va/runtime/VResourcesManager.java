@@ -171,8 +171,8 @@ public class VResourcesManager implements IInjector {
      */
     private static Object getPackageManager() {
         try {
-            Class<?> prisonCoreClass = Class.forName("com.android.va.base.PrisonCore");
-            Method getPackageManagerMethod = prisonCoreClass.getMethod("getPackageManager");
+            Class<?> vRuntimeClass = Class.forName("com.android.va.runtime.VRuntime");
+            Method getPackageManagerMethod = vRuntimeClass.getMethod("getPackageManager");
             return getPackageManagerMethod.invoke(null);
         } catch (Exception e) {
             Logger.w(TAG, "Failed to get PackageManager: " + e.getMessage());

@@ -24,7 +24,7 @@ public class VAppSystemEnv {
 
         // google Gboard
         sSystemPackages.add("com.google.android.inputmethod.latin");
-        // sSystemPackages.add(Prison.getHostPkg());
+        // sSystemPackages.add(VHost.getPackageName());
 
         // 华为
         sSystemPackages.add("com.huawei.webview");

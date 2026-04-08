@@ -14,7 +14,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.base.PrisonCore;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VActivityManager;
 import com.android.va.runtime.VPackageManager;
@@ -47,7 +46,7 @@ public class ActivityManagerCommonProxy {
             if (ComponentUtils.isRequestInstall(intent)) {
                 File file = FileProviderHandler.convertFile(VActivityThread.getApplication(), intent.getData());
                 
-                // Check if this is an attempt to install Prison app
+                // Check if this is an attempt to install the VA host app
                 if (file != null && file.exists()) {
                     try {
                         PackageInfo packageInfo = VHost.getContext().getPackageManager().getPackageArchiveInfo(file.getAbsolutePath(), 0);
@@ -55,17 +54,17 @@ public class ActivityManagerCommonProxy {
                             String packageName = packageInfo.packageName;
                             String hostPackageName = VHost.getPackageName();
                             if (packageName.equals(hostPackageName)) {
-                                Logger.w(TAG, "Blocked attempt to install Prison app from within Prison: " + packageName);
+                                Logger.w(TAG, "Blocked attempt to install VA host app from within VA: " + packageName);
                                 // Return success but don't actually install
                                 return 0;
                             }
                         }
                     } catch (Exception e) {
-                        Logger.w(TAG, "Could not verify if this is Prison app: " + e.getMessage());
+                        Logger.w(TAG, "Could not verify if this is VA host app: " + e.getMessage());
                     }
                 }
                 
-                if (PrisonCore.get().getSettings().requestInstallPackage(file, VActivityThread.getUserId())) {
+                if (VHost.get().requestInstallPackage(file, VActivityThread.getUserId())) {
                     return 0;
                 }
                 intent.setData(FileProviderHandler.convertFileUri(VActivityThread.getApplication(), intent.getData()));

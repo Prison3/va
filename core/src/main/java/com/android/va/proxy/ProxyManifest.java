@@ -4,7 +4,7 @@ import com.android.va.runtime.VHost;
 
 import java.util.Locale;
 
-import com.android.va.base.PrisonCore;
+import com.android.va.runtime.VRuntime;
 
 public class ProxyManifest {
     public static final int FREE_COUNT = 50;
@@ -14,7 +14,7 @@ public class ProxyManifest {
     }
 
     public static String getBindProvider() {
-        return VHost.getPackageName() + ".prison.SystemCallProvider";
+        return VHost.getPackageName() + ".va.SystemCallProvider";
     }
 
     public static String getProxyAuthorities(int index) {
@@ -42,7 +42,7 @@ public class ProxyManifest {
     }
 
     public static String getProxyFileProvider() {
-        return VHost.getPackageName() + ".prison.FileProvider";
+        return VHost.getPackageName() + ".va.FileProvider";
     }
 
     public static String getProxyReceiver() {
