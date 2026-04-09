@@ -325,7 +325,11 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             serial = Build.getSerial();
         } catch (SecurityException e) {
         }
-        mSerialText.setText(DeviceNumber.get() + "/" + serial);
+        if (StringUtils.isEmpty(serial)) {
+            mSerialText.setText(DeviceNumber.getDisplay());
+        } else {
+            mSerialText.setText(DeviceNumber.getDisplay() + "/" + serial);
+        }
     }
 
     private void refreshGrpcAddress() {

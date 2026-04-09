@@ -28,8 +28,9 @@
             android:layout_width="160dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:gravity="center"
-            android:text="serial"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="10dp"
+            android:text="@string/device_number_not_configured"
             android:textColor="@color/defaultText"
             android:textSize="14sp"
             android:textStyle="bold" />

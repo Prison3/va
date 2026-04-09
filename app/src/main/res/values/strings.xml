@@ -1,4 +1,5 @@
 <resources>
+    <string name="device_number_not_configured">Not configured</string>
     <string name="app_name">va</string>
     <string name="select_app">1. 选择应用</string>
 
