@@ -3,6 +3,7 @@ package com.android.actor.ui;
 import com.android.va.runtime.VHost;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.android.actor.ActApp;
 import com.android.actor.R;
 import com.android.actor.monitor.Logger;
 import com.android.va.runtime.VActivityManager;
+import com.android.va.runtime.VEnvironment;
 import com.android.va.runtime.VPackageManager;
 import com.android.va.runtime.VProfileManager;
 import com.android.va.model.Profile;
@@ -167,16 +169,16 @@ public class PagerApps extends BasePager {
                         }
                     } catch (Throwable ignored) {
                     }
-                    String verLine = "";
+                    String versionText = "";
                     try {
                         PackageInfo pi = VPackageManager.get().getPackageInfo(ai.packageName, 0, userId);
                         if (pi != null) {
                             String vn = pi.versionName != null ? pi.versionName : "";
-                            verLine = vn + " (" + pi.versionCode + ") · uid " + ai.uid;
+                            versionText = vn + " (" + pi.versionCode + ")";
                         }
                     } catch (Throwable ignored) {
                     }
-                    rows.add(new VirtualAppItem(ai, userId, label, verLine));
+                    rows.add(new VirtualAppItem(ai, userId, label, versionText));
                 }
                 Logger.i(TAG, L + " after host filter: rows=" + rows.size() + " skippedHost=" + skippedHost);
 
@@ -195,21 +197,40 @@ public class PagerApps extends BasePager {
         }, "pager-apps-vm").start();
     }
 
-    private class VAppAdapter extends RecyclerView.Adapter<AppInfoView> {
+    private static final int VIEW_TYPE_APP = 0;
+    private static final int VIEW_TYPE_ADD = 1;
+
+    private class VAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @NonNull
         @Override
-        public AppInfoView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new AppInfoView(LayoutInflater.from(mContext).inflate(R.layout.item_remote, parent, false));
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            if (viewType == VIEW_TYPE_ADD) {
+                View v = LayoutInflater.from(mContext).inflate(R.layout.item_apps_add, parent, false);
+                return new AddInstallRowHolder(v);
+            }
+            return new AppInfoView(LayoutInflater.from(mContext).inflate(R.layout.item_apps, parent, false));
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position == mDataList.size() ? VIEW_TYPE_ADD : VIEW_TYPE_APP;
         }
 
         @SuppressLint("SetTextI18n")
         @Override
-        public void onBindViewHolder(@NonNull AppInfoView holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (holder instanceof AddInstallRowHolder) {
+                holder.itemView.setOnClickListener(v -> {
+                    Logger.i(TAG, "open InstallActivity from apps +");
+                    mContext.startActivity(new Intent(mContext, InstallActivity.class));
+                });
+                return;
+            }
+            AppInfoView h = (AppInfoView) holder;
             VirtualAppItem item = mDataList.get(position);
-            holder.checkBox.setChecked(true);
-            holder.checkBox.setEnabled(false);
-            holder.appInfo.setText(item.label);
-            holder.verInfo.setText(item.packageName + " · " + item.versionLine);
+            String ver = item.versionText != null ? item.versionText : "";
+            h.info.setText(ver.isEmpty() ? item.packageName : item.packageName + " · " + ver);
+            h.uid.setText("" + item.applicationInfo.uid);
 
             Drawable icon = null;
             try {
@@ -220,16 +241,16 @@ public class PagerApps extends BasePager {
             } catch (Throwable e) {
                 Logger.w(TAG, "icon " + item.packageName, e);
             }
-            holder.imageView.setImageDrawable(icon);
+            h.imageView.setImageDrawable(icon);
 
-            holder.open.setOnClickListener(v -> {
+            h.open.setOnClickListener(v -> {
                 Logger.i(TAG, "launch " + item.packageName + " user=" + item.userId);
                 boolean ok = VActivityManager.get().launchApk(item.packageName, item.userId);
                 if (!ok) {
                     Toast.makeText(mContext, "无法启动: " + item.packageName, Toast.LENGTH_SHORT).show();
                 }
             });
-            holder.stop.setOnClickListener(v -> {
+            h.stop.setOnClickListener(v -> {
                 Logger.i(TAG, "stopPackage " + item.packageName + " user=" + item.userId);
                 new Thread(() -> {
                     try {
@@ -239,30 +260,76 @@ public class PagerApps extends BasePager {
                     }
                 }, "vm-stop").start();
             });
+            h.clearCache.setOnClickListener(v -> {
+                Logger.i(TAG, "clearApplicationCache " + item.packageName + " user=" + item.userId);
+                new Thread(() -> {
+                    try {
+
+                        VPackageManager.get().clearPackage(item.packageName, item.userId);
+                        ActApp.post(() -> {
+                            Toast.makeText(mContext, "Cache cleared: " + item.packageName, Toast.LENGTH_SHORT).show();
+                            refreshVirtualApps();
+                        });
+                    } catch (Throwable t) {
+                        Logger.e(TAG, "clearApplicationCache", t);
+                        ActApp.post(() -> Toast.makeText(mContext,
+                                "Clear cache failed: " + t.getMessage(), Toast.LENGTH_LONG).show());
+                    }
+                }, "vm-clear-cache").start();
+            });
+            h.uninstall.setOnClickListener(v -> new AlertDialog.Builder(mContext)
+                    .setTitle("Uninstall")
+                    .setMessage("Remove " + item.label + " (" + item.packageName + ") from this profile?")
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, (d, w) -> {
+                        Logger.i(TAG, "uninstallPackageAsUser " + item.packageName + " user=" + item.userId);
+                        new Thread(() -> {
+                            try {
+                                VPackageManager.get().uninstallPackageAsUser(item.packageName, item.userId);
+                                ActApp.post(() -> {
+                                    Toast.makeText(mContext, "Uninstalled: " + item.packageName, Toast.LENGTH_SHORT).show();
+                                    refreshVirtualApps();
+                                });
+                            } catch (Throwable t) {
+                                Logger.e(TAG, "uninstallPackageAsUser", t);
+                                ActApp.post(() -> Toast.makeText(mContext,
+                                        "Uninstall failed: " + t.getMessage(), Toast.LENGTH_LONG).show());
+                            }
+                        }, "vm-uninstall").start();
+                    })
+                    .show());
         }
 
         @Override
         public int getItemCount() {
-            return mDataList.size();
+            return mDataList.size() + 1;
+        }
+    }
+
+    static final class AddInstallRowHolder extends RecyclerView.ViewHolder {
+        AddInstallRowHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 
     static class AppInfoView extends RecyclerView.ViewHolder {
-        CheckBox checkBox;
         ImageView imageView;
-        TextView appInfo;
-        TextView verInfo;
+        TextView info;
+        TextView uid;
         Button open;
         Button stop;
+        Button clearCache;
+        Button uninstall;
 
         AppInfoView(@NonNull View item) {
             super(item);
-            checkBox = item.findViewById(R.id.item_remote_check);
-            imageView = item.findViewById(R.id.item_remote_img);
-            appInfo = item.findViewById(R.id.item_remote_app_info);
-            verInfo = item.findViewById(R.id.item_remote_ver_info);
-            open = item.findViewById(R.id.item_remote_open);
-            stop = item.findViewById(R.id.item_remote_stop);
+            imageView = item.findViewById(R.id.item_apps_img);
+            info = item.findViewById(R.id.item_apps_info);
+            uid = item.findViewById(R.id.item_apps_uid);
+            open = item.findViewById(R.id.item_apps_open);
+            stop = item.findViewById(R.id.item_apps_stop);
+            clearCache = item.findViewById(R.id.item_apps_clear_cache);
+            uninstall = item.findViewById(R.id.item_apps_uninstall);
         }
     }
 
@@ -271,14 +338,15 @@ public class PagerApps extends BasePager {
         final int userId;
         final String label;
         final String packageName;
-        final String versionLine;
+        /** 仅版本展示：versionName (versionCode)，无 PackageInfo 时为空串 */
+        final String versionText;
 
-        VirtualAppItem(ApplicationInfo ai, int userId, String label, String versionLine) {
+        VirtualAppItem(ApplicationInfo ai, int userId, String label, String versionText) {
             this.applicationInfo = ai;
             this.userId = userId;
             this.label = label;
             this.packageName = ai.packageName;
-            this.versionLine = versionLine;
+            this.versionText = versionText;
         }
     }
 

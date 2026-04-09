@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="4dp"
+    tools:ignore="HardcodedText,RtlSymmetry">
+
+    <!-- 应用信息行 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/item_remote_check"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:clickable="false" />
+
+        <ImageView
+            android:id="@+id/item_apps_img"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
+
+            <TextView
+                android:id="@+id/item_apps_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="app_info:"
+                android:textColor="@color/defaultText"
+                android:textSize="12sp" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="4dp">
+
+                    <TextView
+                        android:id="@+id/item_apps_uid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="uid:"
+                        android:textColor="@color/defaultText"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/item_apps_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:minWidth="52dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="open"
+                        android:textAllCaps="false"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/item_apps_stop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:minWidth="52dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="stop"
+                        android:textAllCaps="false"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/item_apps_clear_cache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:minWidth="52dp"
+                        android:paddingHorizontal="6dp"
+                        android:text="clear cache"
+                        android:textAllCaps="false"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/item_apps_uninstall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:minWidth="52dp"
+                        android:paddingHorizontal="6dp"
+                        android:text="uninstall"
+                        android:textAllCaps="false"
+                        android:textSize="11sp" />
+                </LinearLayout>
+<!--            </HorizontalScrollView>-->
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
