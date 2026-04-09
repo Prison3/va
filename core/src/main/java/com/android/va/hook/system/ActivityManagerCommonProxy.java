@@ -1,4 +1,4 @@
-package com.android.va.hook.scan;
+package com.android.va.hook.system;
 
 import com.android.va.runtime.VHost;
 
@@ -18,7 +18,6 @@ import com.android.va.runtime.VActivityThread;
 import com.android.va.runtime.VActivityManager;
 import com.android.va.runtime.VPackageManager;
 import com.android.va.hook.ProxyMethod;
-import com.android.va.hook.system.FileProviderHandler;
 import com.android.va.utils.ComponentUtils;
 import com.android.va.utils.MethodParameterUtils;
 import com.android.va.utils.BuildCompat;

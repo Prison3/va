@@ -1,4 +1,4 @@
-package com.android.va.hook.scan;
+package com.android.va.hook;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

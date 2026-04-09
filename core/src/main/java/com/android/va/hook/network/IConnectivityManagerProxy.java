@@ -11,9 +11,8 @@ import com.android.va.hook.MethodHook;
 import com.android.va.mirror.android.net.BRIConnectivityManagerStub;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.hook.BinderInvocationStub;
-import com.android.va.hook.scan.ScanClass;
+import com.android.va.hook.ScanClass;
 import com.android.va.hook.ProxyMethod;
-import com.android.va.hook.scan.VpnCommonProxy;
 import com.android.va.utils.Logger;
 
 @ScanClass(VpnCommonProxy.class)

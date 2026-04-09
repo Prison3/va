@@ -11,8 +11,7 @@ import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.mirror.android.util.BRSingleton;
 import com.android.va.hook.BinderInvocationStub;
 import com.android.va.hook.ProxyMethod;
-import com.android.va.hook.scan.ScanClass;
-import com.android.va.hook.scan.ActivityManagerCommonProxy;
+import com.android.va.hook.ScanClass;
 import com.android.va.utils.TaskDescriptionCompat;
 
 @ScanClass(ActivityManagerCommonProxy.class)

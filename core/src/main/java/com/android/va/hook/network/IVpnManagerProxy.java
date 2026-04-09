@@ -3,8 +3,7 @@ package com.android.va.hook.network;
 import com.android.va.mirror.android.net.BRIVpnManagerStub;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.hook.BinderInvocationStub;
-import com.android.va.hook.scan.ScanClass;
-import com.android.va.hook.scan.VpnCommonProxy;
+import com.android.va.hook.ScanClass;
 
 @ScanClass(VpnCommonProxy.class)
 public class IVpnManagerProxy extends BinderInvocationStub {

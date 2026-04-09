@@ -8,7 +8,6 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.android.va.hook.scan.ScanClass;
 import com.android.va.utils.Logger;
 import com.android.va.utils.MethodParameterUtils;
 

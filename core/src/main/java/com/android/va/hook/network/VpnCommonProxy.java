@@ -1,4 +1,4 @@
-package com.android.va.hook.scan;
+package com.android.va.hook.network;
 
 import com.android.va.runtime.VHost;
 
@@ -8,7 +8,6 @@ import java.util.List;
 import com.android.va.hook.MethodHook;
 import com.android.va.mirror.com.android.internal.net.BRVpnConfig;
 import com.android.va.mirror.com.android.internal.net.VpnConfigContext;
-import com.android.va.runtime.VRuntime;
 import com.android.va.runtime.VActivityThread;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.proxy.ProxyVpnService;
