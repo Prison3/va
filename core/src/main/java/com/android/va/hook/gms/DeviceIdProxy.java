@@ -10,6 +10,7 @@ import com.android.va.utils.Logger;
 /**
  * Device ID proxy to handle GMS device ID retrieval issues.
  */
+@Deprecated
 public class DeviceIdProxy extends ClassInvocationStub {
     public static final String TAG = DeviceIdProxy.class.getSimpleName();
 
