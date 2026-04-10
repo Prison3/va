@@ -1,8 +1,9 @@
 package com.swift.sandhook.utils;
 
+import android.annotation.SuppressLint;
+
 import com.swift.sandhook.SandHookConfig;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
@@ -13,10 +14,17 @@ public class ClassStatusUtils {
     static Field fieldStatusOfClass;
 
     static {
+        fieldStatusOfClass = initClassStatusField();
+    }
+
+    @SuppressLint("SoonBlockedPrivateApi")
+    private static Field initClassStatusField() {
         try {
-            fieldStatusOfClass = Class.class.getDeclaredField("status");
-            fieldStatusOfClass.setAccessible(true);
+            Field f = Class.class.getDeclaredField("status");
+            f.setAccessible(true);
+            return f;
         } catch (NoSuchFieldException e) {
+            return null;
         }
     }
 
