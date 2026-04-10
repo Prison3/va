@@ -1,5 +1,9 @@
 package com.android.va.hook.system;
 
+import com.android.va.hook.content.ContentProviderDelegate;
+import com.android.va.hook.content.ContentProviderStub;
+import com.android.va.mirror.android.content.BRContentProviderNative;
+import com.android.va.model.AppConfig;
 import com.android.va.runtime.VHost;
 
 import android.Manifest;
@@ -10,6 +14,7 @@ import android.content.Context;
 import android.content.IIntentReceiver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.os.IBinder;
 import android.os.IInterface;
@@ -45,10 +50,12 @@ import com.android.va.utils.MethodParameterUtils;
 import com.android.va.utils.ActivityManagerCompat;
 import com.android.va.utils.BuildCompat;
 import com.android.va.utils.ParceledListSliceCompat;
+import com.android.va.utils.Reflector;
 import com.android.va.utils.TaskDescriptionCompat;
 
 import static android.content.Context.RECEIVER_EXPORTED;
 import static android.content.Context.RECEIVER_NOT_EXPORTED;
+import static android.content.pm.PackageManager.GET_META_DATA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import com.android.va.utils.Logger;
 
@@ -118,25 +125,93 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         }
     }
 
+    /**
+     * {@link android.app.IActivityManager#getContentProviderExternal} / getContentProvider：
+     * 系统级 Provider（settings/media/telephony、GMS 等）走 {@link ContentProviderDelegate#update}；
+     * 其余解析虚拟包并套 {@link ContentProviderStub}。
+     */
     @ProxyMethod("getContentProvider")
     public static class GetContentProvider extends MethodHook {
+
+        /** 获取后仅需 {@link ContentProviderDelegate#update}、不替换进程的 authority（精确匹配） */
+        private static boolean isDelegateOnlyAuthority(String auth) {
+            if (auth == null) {
+                return false;
+            }
+            switch (auth) {
+                case "settings":
+                case "media":
+                case "telephony":
+                case "com.google.android.gms.chimera":
+                case "com.huawei.android.launcher.settings":
+                case "com.hihonor.android.launcher.settings":
+                    return true;
+                default:
+                    return auth.contains("com.google.android.gms")
+                            || auth.contains("com.android.vending")
+                            || auth.contains("com.google.android.gsf");
+            }
+        }
+
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            try {
-                // Try to use the original method first
-                Object result = method.invoke(who, args);
-                if (result != null) {
-                    return result;
-                }
-                
-                // If original method fails, return null to prevent crashes
-                Logger.w(TAG, "getContentProvider failed, returning null to prevent crash");
-                return null;
-                
-            } catch (Exception e) {
-                Logger.w(TAG, "Error in getContentProvider, returning null: " + e.getMessage());
+            int authIndex = getAuthIndex();
+            int userIndex = getUserIndex();
+            if (args == null || authIndex >= args.length) {
+                return method.invoke(who, args);
+            }
+            Object authObj = args[authIndex];
+            if (!(authObj instanceof String auth)) {
+                return method.invoke(who, args);
+            }
+
+            if (ProxyManifest.isProxy(auth)) {
+                return method.invoke(who, args);
+            }
+
+            if (BuildCompat.isQ()) {
+                args[1] = VHost.getPackageName();
+            }
+
+            if (isDelegateOnlyAuthority(auth)) {
+                Object holder = method.invoke(who, args);
+                ContentProviderDelegate.update(holder, auth);
+                return holder;
+            }
+
+            ProviderInfo providerInfo = VPackageManager.get().resolveContentProvider(auth, GET_META_DATA, VActivityThread.getUserId());
+            if (providerInfo == null) {
                 return null;
             }
+
+            IBinder providerBinder = null;
+            if (VActivityThread.getAppPid() != -1) {
+                AppConfig appConfig = VActivityManager.get().initProcess(providerInfo.packageName,providerInfo.processName,VActivityThread.getUserId());
+                if (appConfig.bpid != VActivityThread.getAppPid()) {
+                    providerBinder = VActivityManager.get().acquireContentProviderClient(providerInfo);
+                }
+                args[authIndex] = ProxyManifest.getProxyAuthorities(appConfig.bpid);
+                if (userIndex < args.length) {
+                    args[userIndex] = VHost.getUserId();
+                }
+            }
+            if (providerBinder == null) {
+                return null;
+            }
+
+            Object holder = method.invoke(who, args);
+            assert holder != null;
+            Reflector.with(holder).field("info").set(providerInfo);
+            Reflector.with(holder).field("provider").set(new ContentProviderStub().wrapper(BRContentProviderNative.get().asInterface(providerBinder), providerInfo.packageName, providerInfo.authority));
+            return holder;
+        }
+
+        protected int getAuthIndex() {
+            return BuildCompat.isQ() ? 2 : 1;
+        }
+
+        protected int getUserIndex() {
+            return getAuthIndex() + 1;
         }
     }
 

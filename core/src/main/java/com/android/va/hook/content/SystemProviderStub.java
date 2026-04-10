@@ -2,6 +2,7 @@ package com.android.va.hook.content;
 
 import com.android.va.runtime.VHost;
 
+import android.os.Bundle;
 import android.os.IInterface;
 
 import java.lang.reflect.Method;
@@ -11,11 +12,14 @@ import com.android.va.mirror.android.content.BRAttributionSource;
 import com.android.va.utils.ContextCompat;
 
 public class SystemProviderStub extends ClassInvocationStub implements IContentProvider {
+    public static final String TAG = SystemProviderStub.class.getSimpleName();
     private IInterface mBase;
+    private String mAuthority;
 
     @Override
-    public IInterface wrapper(IInterface contentProviderProxy, String appPkg) {
+    public IInterface wrapper(IInterface contentProviderProxy, String appPkg, String authority) {
         mBase = contentProviderProxy;
+        mAuthority = authority;
         inject();
         return (IInterface) getProxyInvocation();
     }
@@ -31,11 +35,6 @@ public class SystemProviderStub extends ClassInvocationStub implements IContentP
     }
 
     @Override
-    protected void onBindMethod() {
-
-    }
-
-    @Override
     public boolean isBadEnv() {
         return false;
     }
@@ -47,7 +46,6 @@ public class SystemProviderStub extends ClassInvocationStub implements IContentP
         }
 
         String methodName = method.getName();
-
         // For call() method, args[0] is the method name (like "GET_global"), NOT a package name
         // Don't replace it! The method name is essential for Settings provider to work
         if ("call".equals(methodName)) {
@@ -60,14 +58,18 @@ public class SystemProviderStub extends ClassInvocationStub implements IContentP
                     }
                 }
             }
-            return method.invoke(mBase, args);
+
+            Object result = method.invoke(mBase, args);
+            if(mAuthority.equals("settings") && (result instanceof Bundle)){
+                SettingsInterception.intercept(args, (Bundle)result);
+            }
+            return result;
         }
 
         // For other methods like query/insert/update/delete, we may need to fix package names
         if (args != null && args.length > 0) {
             Object arg = args[0];
-            if (arg instanceof String) {
-                String authority = (String) arg;
+            if (arg instanceof String authority) {
                 // Only replace if it's not a system provider authority
                 if (!isSystemProviderAuthority(authority)) {
                     args[0] = VHost.getPackageName();

@@ -16,10 +16,13 @@ public class ContentProviderStub extends ClassInvocationStub implements IContent
     public static final String TAG = ContentProviderStub.class.getSimpleName();
     private IInterface mBase;
     private String mAppPkg;
+    private String mAuthority;
 
-    public IInterface wrapper(final IInterface contentProviderProxy, final String appPkg) {
+    @Override
+    public IInterface wrapper(final IInterface contentProviderProxy, final String appPkg, final String authority) {
         mBase = contentProviderProxy;
         mAppPkg = appPkg;
+        mAuthority = authority;
         inject();
         return (IInterface) getProxyInvocation();
     }
