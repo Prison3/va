@@ -22,5 +22,10 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    # Gradle 会为各模块拉取所需 NDK；未预先接受许可时，侧载 NDK（如 29.x）会失败。
+    - name: Accept Android SDK licenses
+      run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses
+
     - name: Build with Gradle
       run: ./gradlew build
