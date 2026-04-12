@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.android.va.hook.MethodHook;
-import com.android.va.runtime.VRuntime;
 import com.android.va.mirror.android.os.BRServiceManager;
 import com.android.va.mirror.com.android.internal.telephony.BRITelephonyStub;
 import com.android.va.runtime.VActivityThread;
@@ -19,10 +18,11 @@ import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.Logger;
 import com.android.va.utils.Md5Utils;
 
-public class ITelephonyManagerProxy extends BinderInvocationStub {
-    public static final String TAG = ITelephonyManagerProxy.class.getSimpleName();
+// https://xrefandroid.com/android-16.0.0_r2/xref/frameworks/base/telephony/java/com/android/internal/telephony/ITelephony.aidl
+public class ITelephonyProxy extends BinderInvocationStub {
+    public static final String TAG = ITelephonyProxy.class.getSimpleName();
 
-    public ITelephonyManagerProxy() {
+    public ITelephonyProxy() {
         super(BRServiceManager.get().getService(Context.TELEPHONY_SERVICE));
     }
 
@@ -183,3 +183,4 @@ public class ITelephonyManagerProxy extends BinderInvocationStub {
         }
     }
 }
+

@@ -5,13 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.android.va.hook.account.AuthenticationProxy;
-import com.android.va.hook.account.GoogleAccountManagerProxy;
 import com.android.va.hook.account.IAccountManagerProxy;
 import com.android.va.hook.app.AppInstrumentation;
 import com.android.va.hook.content.IAttributionSourceProxy;
 import com.android.va.hook.content.IContentProviderProxy;
-import com.android.va.hook.content.ISettingsProviderProxy;
 import com.android.va.hook.content.ISettingsSystemProxy;
 import com.android.va.hook.device.IAutofillManagerProxy;
 import com.android.va.hook.device.IContextHubServiceProxy;
@@ -22,18 +19,14 @@ import com.android.va.hook.device.ISensitiveContentProtectionManagerProxy;
 import com.android.va.hook.device.ISensorPrivacyManagerProxy;
 import com.android.va.hook.device.ISystemSensorManagerProxy;
 import com.android.va.hook.device.IVibratorServiceProxy;
-import com.android.va.hook.gms.AndroidIdProxy;
 import com.android.va.hook.gms.DeviceIdProxy;
 import com.android.va.hook.gms.GmsProxy;
 import com.android.va.hook.location.ILocationManagerProxy;
 import com.android.va.hook.media.AudioPermissionProxy;
-import com.android.va.hook.media.AudioRecordProxy;
 import com.android.va.hook.media.IAudioServiceProxy;
 import com.android.va.hook.media.IGraphicsStatsProxy;
 import com.android.va.hook.media.IMediaRouterServiceProxy;
 import com.android.va.hook.media.IMediaSessionManagerProxy;
-import com.android.va.hook.media.MediaRecorderClassProxy;
-import com.android.va.hook.media.MediaRecorderProxy;
 import com.android.va.hook.miui.IMiuiSecurityManagerProxy;
 import com.android.va.hook.miui.IXiaomiAttributionSourceProxy;
 import com.android.va.hook.miui.IXiaomiMiuiServicesProxy;
@@ -44,18 +37,10 @@ import com.android.va.hook.network.INetworkManagementServiceProxy;
 import com.android.va.hook.network.IVpnManagerProxy;
 import com.android.va.hook.network.IWifiManagerProxy;
 import com.android.va.hook.network.IWifiScannerProxy;
-import com.android.va.hook.resources.ApkAssetsProxy;
-import com.android.va.hook.resources.ClassLoaderProxy;
-import com.android.va.hook.resources.FeatureFlagUtilsProxy;
 import com.android.va.hook.resources.ResourcesManagerProxy;
-import com.android.va.hook.resources.WorkManagerProxy;
-import com.android.va.hook.storage.FileSystemProxy;
 import com.android.va.hook.storage.IPersistentDataBlockServiceProxy;
 import com.android.va.hook.storage.IStorageManagerProxy;
 import com.android.va.hook.storage.IStorageStatsManagerProxy;
-import com.android.va.hook.storage.LevelDbProxy;
-import com.android.va.hook.storage.SQLiteDatabaseProxy;
-import com.android.va.hook.system.ContentResolverProxy;
 import com.android.va.hook.system.ContentServiceStub;
 import com.android.va.hook.system.HCallbackProxy;
 import com.android.va.hook.system.IAccessibilityManagerProxy;
@@ -79,13 +64,11 @@ import com.android.va.hook.system.IWindowManagerProxy;
 import com.android.va.hook.system.OsStub;
 import com.android.va.hook.system.RestrictionsManagerStub;
 import com.android.va.hook.telephony.IPhoneSubInfoProxy;
-import com.android.va.hook.telephony.ITelephonyManagerProxy;
+import com.android.va.hook.telephony.ISubProxy;
+import com.android.va.hook.telephony.ITelephonyProxy;
 import com.android.va.hook.telephony.ITelephonyRegistryProxy;
 import com.android.va.hook.webview.IWebViewUpdateServiceProxy;
-import com.android.va.hook.webview.ReLinkerProxy;
 import com.android.va.hook.webview.SystemLibraryProxy;
-import com.android.va.hook.webview.WebViewFactoryProxy;
-import com.android.va.hook.webview.WebViewProxy;
 import com.android.va.utils.BuildCompat;
 import com.android.va.utils.Logger;
 
@@ -127,7 +110,8 @@ public class InjectorManager {
             OsStub.class,
             IActivityManagerProxy.class,
             IPackageManagerProxy.class,
-            ITelephonyManagerProxy.class,
+            ITelephonyProxy.class,
+            ISubProxy.class,
             HCallbackProxy.class,
             IAppOpsManagerProxy.class,
             INotificationManagerProxy.class,

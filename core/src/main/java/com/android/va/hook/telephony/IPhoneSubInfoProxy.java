@@ -9,7 +9,8 @@ import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.MethodParameterUtils;
 
 /**
- * Created by Prison on 2022/2/26.
+ *
+ *aidl：https://xrefandroid.com/android-16.0.0_r2/xref/frameworks/base/telephony/java/com/android/internal/telephony/IPhoneSubInfo.aidl
  */
 public class IPhoneSubInfoProxy extends ClassInvocationStub {
     public static final String TAG = IPhoneSubInfoProxy.class.getSimpleName();

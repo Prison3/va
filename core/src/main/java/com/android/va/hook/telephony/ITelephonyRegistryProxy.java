@@ -9,6 +9,7 @@ import com.android.va.hook.BinderInvocationStub;
 import com.android.va.hook.ProxyMethod;
 import com.android.va.utils.MethodParameterUtils;
 
+//https://xrefandroid.com/android-16.0.0_r2/xref/frameworks/base/core/java/com/android/internal/telephony/ITelephonyRegistry.aidl
 public class ITelephonyRegistryProxy extends BinderInvocationStub {
     public ITelephonyRegistryProxy() {
         super(BRServiceManager.get().getService("telephony.registry"));
