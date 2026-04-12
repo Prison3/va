@@ -10,6 +10,7 @@ import com.android.va.hook.app.AppInstrumentation;
 import com.android.va.hook.content.IAttributionSourceProxy;
 import com.android.va.hook.content.IContentProviderProxy;
 import com.android.va.hook.content.ISettingsSystemProxy;
+import com.android.va.hook.device.IAuthServiceProxy;
 import com.android.va.hook.device.IAutofillManagerProxy;
 import com.android.va.hook.device.IContextHubServiceProxy;
 import com.android.va.hook.device.IDeviceIdentifiersPolicyProxy;
@@ -170,6 +171,7 @@ public class InjectorManager {
             IShortcutManagerProxy.class,
             INetworkManagementServiceProxy.class,
             IFingerprintManagerProxy.class,
+            IAuthServiceProxy.class,
             IGraphicsStatsProxy.class
     };
 
